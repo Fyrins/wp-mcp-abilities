@@ -1,0 +1,35 @@
+# EditorConfig for WP MCP Abilities
+# https://editorconfig.org
+
+root = true
+
+# Default settings for all files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# PHP files - WordPress standard (tabs)
+[*.php]
+indent_style = tab
+indent_size = 4
+
+# JSON, YAML, and config files - 2 spaces
+[*.{json,yml,yaml}]
+indent_style = space
+indent_size = 4
+
+# Markdown files - preserve trailing whitespace (for line breaks)
+[*.md]
+trim_trailing_whitespace = false
+
+# JavaScript and related files - 2 spaces (if you have JS in your plugin)
+[*.{js,jsx,ts,tsx}]
+indent_style = space
+indent_size = 4
+
+# CSS, SCSS files - 2 spaces
+[*.{css,scss,sass}]
+indent_style = space
+indent_size = 4

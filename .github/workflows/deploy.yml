@@ -1,0 +1,33 @@
+name: Deploy to WordPress.org
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - name: Check versions
+        run: bin/check-versions.sh . "$GITHUB_REF_NAME"
+      - id: deploy
+        uses: 10up/action-wordpress-plugin-deploy@54bd289b8525fd23a5c365ec369185f2966529c2 # 2.3.0
+        with:
+          generate-zip: true
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: wp-mcp-abilities
+          ASSETS_DIR: .wordpress-org
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ZIP_PATH: ${{ steps.deploy.outputs.zip-path }}
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v v="$VERSION" 'index($0, "## [" v "]") == 1 {f=1; next} /^## / {f=0} f' CHANGELOG.md > notes.md
+          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 || gh release create "$GITHUB_REF_NAME" "$ZIP_PATH" --title "$VERSION" --notes-file notes.md

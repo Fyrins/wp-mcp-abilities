@@ -1,0 +1,35 @@
+name: CI
+on:
+  push:
+    branches: [main, 'feat/**', 'fix/**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        with:
+          php-version: '8.1'
+          tools: composer
+      - run: find . -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
+      - run: composer install --no-interaction --no-progress
+      - run: composer lint
+
+  plugin-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Build the publishable package
+        run: |
+          mkdir -p build/wp-mcp-abilities
+          rsync -a --exclude=/build --exclude-from=.distignore ./ build/wp-mcp-abilities/
+      - uses: wordpress/plugin-check-action@10857da14b6c2246d15402b3e69f777edcf8c12e # v1.1.9
+        with:
+          build-dir: build/wp-mcp-abilities
+          categories: general,plugin_repo,security,performance,accessibility
+          include-experimental: true

@@ -1,0 +1,1256 @@
+# Copyright (C) 2026 Alexandre Revire
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP MCP Abilities 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-mcp-abilities\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-25T15:45:51+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: wp-mcp-abilities\n"
+
+#. Plugin Name of the plugin
+#: wp-mcp-abilities.php
+#: includes/AbilityCategories/ContentAbilityCategory.php:33
+msgid "WP MCP Abilities"
+msgstr ""
+
+#. Description of the plugin
+#: wp-mcp-abilities.php
+msgid "Content management abilities for AI agents, exposed through the WordPress Abilities API and the MCP Adapter."
+msgstr ""
+
+#. Author of the plugin
+#: wp-mcp-abilities.php
+msgid "Alexandre Revire"
+msgstr ""
+
+#. Author URI of the plugin
+#: wp-mcp-abilities.php
+msgid "https://alexandre-revire.fr"
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:57
+msgid "Replace in post content"
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:64
+msgid "Replaces a literal string inside the content of a post, without resending the whole content. Supports a dry run and an expected number of occurrences."
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:74
+msgid "Content"
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:86
+msgid "Identifier of the post to edit."
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:91
+msgid "Literal string to look for, matched byte for byte. Not a regular expression. Tags, attributes, HTML comments and newlines are kept as sent, so a block boundary or an opening tag with its attributes can be used as an anchor."
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:95
+msgid "String to put in its place, written as sent. An empty string deletes the match."
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:100
+msgid "Number of matches the caller expects. Nothing is written when the actual count differs."
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:105
+msgid "Counts and measures without writing anything."
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:123
+msgid "Matches found in the content."
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:127
+msgid "True when the content was actually written."
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:133
+msgid "Length read back from the database after writing, or the projected length on a dry run."
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:137
+msgid "False when what was stored differs from what was submitted, which points to kses having stripped markup the caller is not allowed to write."
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:182
+msgid "The \"search\" parameter is required."
+msgstr ""
+
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:191
+msgid "The \"search\" parameter was sent as an empty string. Nothing was looked for."
+msgstr ""
+
+#. translators: 1: expected number of matches, 2: number actually found.
+#: includes/Abilities/Content/ReplaceInPostContentAbility.php:212
+#, php-format
+msgid "%1$d matches expected, %2$d found. Nothing was written."
+msgstr ""
+
+#: includes/Abilities/Media/DeleteMediaAbility.php:33
+msgid "Delete a media"
+msgstr ""
+
+#: includes/Abilities/Media/DeleteMediaAbility.php:40
+msgid "Permanently deletes a media from the library."
+msgstr ""
+
+#: includes/Abilities/Media/DeleteMediaAbility.php:50
+#: includes/Abilities/Media/ListMediaAbility.php:53
+#: includes/Abilities/Media/SetFeaturedImageAbility.php:51
+#: includes/Abilities/Media/UpdateMediaAbility.php:48
+#: includes/Abilities/Media/UploadMediaAbility.php:52
+msgid "Media"
+msgstr ""
+
+#: includes/Abilities/Media/DeleteMediaAbility.php:62
+msgid "Identifier of the attachment to delete."
+msgstr ""
+
+#: includes/Abilities/Media/DeleteMediaAbility.php:126
+msgid "Unable to delete the attachment."
+msgstr ""
+
+#: includes/Abilities/Media/ListMediaAbility.php:36
+msgid "List media"
+msgstr ""
+
+#: includes/Abilities/Media/ListMediaAbility.php:43
+msgid "Lists the attachments of the media library, with MIME type filtering and pagination."
+msgstr ""
+
+#: includes/Abilities/Media/ListMediaAbility.php:65
+msgid "Restricts results to this MIME type, e.g. \"image\" or \"image/png\"."
+msgstr ""
+
+#: includes/Abilities/Media/ListMediaAbility.php:69
+msgid "Restricts results to attachments matching this string."
+msgstr ""
+
+#: includes/Abilities/Media/ListMediaAbility.php:73
+msgid "Number of attachments per page."
+msgstr ""
+
+#: includes/Abilities/Media/ListMediaAbility.php:80
+#: includes/Abilities/Taxonomy/ListTermsAbility.php:89
+#: includes/Abilities/Template/ListTemplatesAbility.php:83
+#: includes/Support/PostTypeAbility.php:762
+msgid "Page to return, starting at 1."
+msgstr ""
+
+#: includes/Abilities/Media/MediaFormatting.php:30
+msgid "Attachment not found."
+msgstr ""
+
+#: includes/Abilities/Media/SetFeaturedImageAbility.php:34
+msgid "Set the featured image"
+msgstr ""
+
+#: includes/Abilities/Media/SetFeaturedImageAbility.php:41
+msgid "Assigns an existing media as the featured image of a post."
+msgstr ""
+
+#: includes/Abilities/Media/SetFeaturedImageAbility.php:63
+#: includes/Abilities/Meta/UpdatePostMetaAbility.php:60
+msgid "Identifier of the post to update."
+msgstr ""
+
+#: includes/Abilities/Media/SetFeaturedImageAbility.php:67
+msgid "Identifier of the attachment to use."
+msgstr ""
+
+#: includes/Abilities/Media/SetFeaturedImageAbility.php:132
+msgid "Unable to set the featured image."
+msgstr ""
+
+#: includes/Abilities/Media/UpdateMediaAbility.php:31
+msgid "Update a media"
+msgstr ""
+
+#: includes/Abilities/Media/UpdateMediaAbility.php:38
+msgid "Updates the title, alt text or caption of an existing media."
+msgstr ""
+
+#: includes/Abilities/Media/UpdateMediaAbility.php:60
+msgid "Identifier of the attachment to update."
+msgstr ""
+
+#: includes/Abilities/Media/UpdateMediaAbility.php:64
+#: includes/Abilities/Template/UpdateTemplateAbility.php:93
+msgid "New title."
+msgstr ""
+
+#: includes/Abilities/Media/UpdateMediaAbility.php:68
+msgid "New alt text."
+msgstr ""
+
+#: includes/Abilities/Media/UpdateMediaAbility.php:72
+msgid "New caption."
+msgstr ""
+
+#: includes/Abilities/Media/UploadMediaAbility.php:35
+msgid "Upload a media"
+msgstr ""
+
+#: includes/Abilities/Media/UploadMediaAbility.php:42
+msgid "Downloads a media file from a URL and adds it to the library."
+msgstr ""
+
+#: includes/Abilities/Media/UploadMediaAbility.php:64
+msgid "The URL of the file to download."
+msgstr ""
+
+#: includes/Abilities/Media/UploadMediaAbility.php:68
+msgid "The desired filename (optional, inferred from the URL by default)."
+msgstr ""
+
+#: includes/Abilities/Media/UploadMediaAbility.php:72
+msgid "The image alt text."
+msgstr ""
+
+#: includes/Abilities/Media/UploadMediaAbility.php:116
+msgid "The URL must use http or https."
+msgstr ""
+
+#: includes/Abilities/Media/UploadMediaAbility.php:144
+msgid "The downloaded file exceeds the allowed size."
+msgstr ""
+
+#: includes/Abilities/Meta/DeleteTermMetaAbility.php:33
+msgid "Delete term meta"
+msgstr ""
+
+#: includes/Abilities/Meta/DeleteTermMetaAbility.php:40
+msgid "Deletes a term meta field. Protected meta keys are refused unless explicitly allowlisted."
+msgstr ""
+
+#: includes/Abilities/Meta/DeleteTermMetaAbility.php:50
+#: includes/Abilities/Meta/GetPostMetaAbility.php:48
+#: includes/Abilities/Meta/GetTermMetaAbility.php:48
+#: includes/Abilities/Meta/UpdatePostMetaAbility.php:48
+#: includes/Abilities/Meta/UpdateTermMetaAbility.php:48
+msgid "Meta"
+msgstr ""
+
+#: includes/Abilities/Meta/DeleteTermMetaAbility.php:62
+#: includes/Abilities/Meta/UpdateTermMetaAbility.php:60
+#: includes/Abilities/Taxonomy/UpdateTermAbility.php:60
+msgid "Identifier of the term to update."
+msgstr ""
+
+#: includes/Abilities/Meta/DeleteTermMetaAbility.php:66
+#: includes/Abilities/Meta/GetTermMetaAbility.php:64
+#: includes/Abilities/Meta/UpdateTermMetaAbility.php:64
+msgid "Taxonomy the term belongs to, used to disambiguate the lookup."
+msgstr ""
+
+#: includes/Abilities/Meta/DeleteTermMetaAbility.php:70
+msgid "Meta key to delete."
+msgstr ""
+
+#: includes/Abilities/Meta/GetPostMetaAbility.php:31
+msgid "Get post meta"
+msgstr ""
+
+#: includes/Abilities/Meta/GetPostMetaAbility.php:38
+msgid "Reads a post meta field. Protected meta keys are refused unless explicitly allowlisted."
+msgstr ""
+
+#: includes/Abilities/Meta/GetPostMetaAbility.php:60
+msgid "Identifier of the post to read."
+msgstr ""
+
+#: includes/Abilities/Meta/GetPostMetaAbility.php:64
+msgid "Meta key to read. Omit it to list every readable meta of the post."
+msgstr ""
+
+#: includes/Abilities/Meta/GetPostMetaAbility.php:87
+msgid "Every readable meta of the post, returned when no meta key was given."
+msgstr ""
+
+#: includes/Abilities/Meta/GetTermMetaAbility.php:31
+msgid "Get term meta"
+msgstr ""
+
+#: includes/Abilities/Meta/GetTermMetaAbility.php:38
+msgid "Reads a term meta field. Protected meta keys are refused unless explicitly allowlisted."
+msgstr ""
+
+#: includes/Abilities/Meta/GetTermMetaAbility.php:60
+msgid "Identifier of the term to read."
+msgstr ""
+
+#: includes/Abilities/Meta/GetTermMetaAbility.php:68
+msgid "Meta key to read. Omit it to list every readable meta of the term."
+msgstr ""
+
+#: includes/Abilities/Meta/GetTermMetaAbility.php:91
+msgid "Every readable meta of the term, returned when no meta key was given."
+msgstr ""
+
+#: includes/Abilities/Meta/MetaAccess.php:68
+#: includes/Abilities/Meta/MetaAccess.php:78
+msgid "The \"meta_key\" parameter is required."
+msgstr ""
+
+#. translators: %s: meta key name.
+#: includes/Abilities/Meta/MetaAccess.php:88
+#, php-format
+msgid "The \"%s\" meta key is protected and has not been allowlisted for MCP abilities."
+msgstr ""
+
+#: includes/Abilities/Meta/MetaAccess.php:125
+#: includes/Abilities/Meta/MetaAccess.php:138
+msgid "The \"meta_value\" parameter only accepts scalars or arrays of scalars."
+msgstr ""
+
+#: includes/Abilities/Meta/MetaAccess.php:178
+msgid "The meta value. Accepts a string, number or boolean, or an array of such scalars; objects are rejected."
+msgstr ""
+
+#: includes/Abilities/Meta/UpdatePostMetaAbility.php:31
+msgid "Update post meta"
+msgstr ""
+
+#: includes/Abilities/Meta/UpdatePostMetaAbility.php:38
+msgid "Updates a post meta field. Protected meta keys are refused unless explicitly allowlisted."
+msgstr ""
+
+#: includes/Abilities/Meta/UpdatePostMetaAbility.php:64
+#: includes/Abilities/Meta/UpdateTermMetaAbility.php:68
+msgid "Meta key to write."
+msgstr ""
+
+#: includes/Abilities/Meta/UpdateTermMetaAbility.php:31
+msgid "Update term meta"
+msgstr ""
+
+#: includes/Abilities/Meta/UpdateTermMetaAbility.php:38
+msgid "Updates a term meta field. Protected meta keys are refused unless explicitly allowlisted."
+msgstr ""
+
+#: includes/Abilities/Seopress/GetPostSeoAbility.php:31
+msgid "Get post SEOpress meta"
+msgstr ""
+
+#: includes/Abilities/Seopress/GetPostSeoAbility.php:38
+msgid "Reads the SEOpress meta of a post."
+msgstr ""
+
+#: includes/Abilities/Seopress/GetPostSeoAbility.php:45
+#: includes/Abilities/Seopress/GetTermSeoAbility.php:45
+#: includes/Abilities/Seopress/UpdatePostSchemasAbility.php:51
+#: includes/Abilities/Seopress/UpdatePostSeoAbility.php:45
+#: includes/Abilities/Seopress/UpdateTermSeoAbility.php:45
+msgid "SEOpress"
+msgstr ""
+
+#: includes/Abilities/Seopress/GetPostSeoAbility.php:64
+#: includes/Abilities/Seopress/UpdatePostSchemasAbility.php:72
+#: includes/Abilities/Seopress/UpdatePostSeoAbility.php:63
+msgid "The post ID."
+msgstr ""
+
+#: includes/Abilities/Seopress/GetTermSeoAbility.php:31
+msgid "Get term SEOpress meta"
+msgstr ""
+
+#: includes/Abilities/Seopress/GetTermSeoAbility.php:38
+msgid "Reads the SEOpress meta of a taxonomy term."
+msgstr ""
+
+#: includes/Abilities/Seopress/GetTermSeoAbility.php:64
+#: includes/Abilities/Seopress/UpdateTermSeoAbility.php:63
+msgid "The term ID."
+msgstr ""
+
+#: includes/Abilities/Seopress/GetTermSeoAbility.php:68
+#: includes/Abilities/Seopress/UpdateTermSeoAbility.php:64
+msgid "The taxonomy slug. Optional if term_id is unambiguous."
+msgstr ""
+
+#: includes/Abilities/Seopress/SeopressMetaMap.php:182
+msgid "SEOpress meta title."
+msgstr ""
+
+#: includes/Abilities/Seopress/SeopressMetaMap.php:183
+msgid "SEOpress meta description."
+msgstr ""
+
+#: includes/Abilities/Seopress/SeopressMetaMap.php:184
+msgid "The canonical URL."
+msgstr ""
+
+#: includes/Abilities/Seopress/SeopressMetaMap.php:185
+msgid "Set noindex."
+msgstr ""
+
+#: includes/Abilities/Seopress/SeopressMetaMap.php:186
+msgid "Set nofollow."
+msgstr ""
+
+#: includes/Abilities/Seopress/SeopressMetaMap.php:187
+msgid "Open Graph title (Facebook/social)."
+msgstr ""
+
+#: includes/Abilities/Seopress/SeopressMetaMap.php:188
+msgid "Open Graph description (Facebook/social)."
+msgstr ""
+
+#: includes/Abilities/Seopress/SeopressMetaMap.php:189
+msgid "Open Graph image URL (Facebook/social)."
+msgstr ""
+
+#: includes/Abilities/Seopress/SeopressMetaMap.php:190
+msgid "Twitter/X card title."
+msgstr ""
+
+#: includes/Abilities/Seopress/SeopressMetaMap.php:191
+msgid "Twitter/X card description."
+msgstr ""
+
+#: includes/Abilities/Seopress/SeopressMetaMap.php:192
+msgid "Twitter/X card image URL."
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSchemasAbility.php:34
+msgid "Update post SEOpress schemas"
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSchemasAbility.php:41
+msgid "Replaces the SEOpress Pro Custom JSON-LD schemas of a post. Sending an empty array clears all manual schemas."
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSchemasAbility.php:76
+msgid "List of JSON-LD strings. Each entry is either a raw JSON object or a full <script type=\"application/ld+json\"> tag. The full list replaces any existing manual schemas."
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSchemasAbility.php:134
+msgid "Parameter \"schemas\" must be an array of JSON-LD strings."
+msgstr ""
+
+#. translators: %d: schema index
+#: includes/Abilities/Seopress/UpdatePostSchemasAbility.php:149
+#, php-format
+msgid "Schema #%d must be a non-empty string."
+msgstr ""
+
+#. translators: %d: schema index
+#: includes/Abilities/Seopress/UpdatePostSchemasAbility.php:165
+#, php-format
+msgid "Schema #%d must not contain a closing script tag."
+msgstr ""
+
+#. translators: 1: schema index, 2: json error
+#: includes/Abilities/Seopress/UpdatePostSchemasAbility.php:179
+#, php-format
+msgid "Schema #%1$d is not valid JSON: %2$s."
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSeoAbility.php:31
+msgid "Update post SEOpress meta"
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSeoAbility.php:38
+msgid "Updates the SEOpress meta of a post."
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSeoAbility.php:64
+msgid "Target keywords, comma-separated."
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSeoAbility.php:65
+msgid "Primary category ID for breadcrumbs, or \"none\"."
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSeoAbility.php:66
+msgid "Custom breadcrumb title."
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSeoAbility.php:67
+msgid "Set nosnippet on this post."
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSeoAbility.php:68
+msgid "Set noimageindex on this post."
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSeoAbility.php:69
+msgid "Enable a redirection for this post."
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSeoAbility.php:70
+msgid "Redirect HTTP status (301, 302, or 307)."
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdatePostSeoAbility.php:71
+msgid "Redirect destination URL."
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdateTermSeoAbility.php:31
+msgid "Update term SEOpress meta"
+msgstr ""
+
+#: includes/Abilities/Seopress/UpdateTermSeoAbility.php:38
+msgid "Updates the SEOpress meta of a taxonomy term."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/CreateTermAbility.php:31
+msgid "Create a term"
+msgstr ""
+
+#: includes/Abilities/Taxonomy/CreateTermAbility.php:38
+msgid "Creates a new term in a taxonomy."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/CreateTermAbility.php:45
+#: includes/Abilities/Taxonomy/DeleteTermAbility.php:45
+#: includes/Abilities/Taxonomy/GetTermAbility.php:48
+#: includes/Abilities/Taxonomy/ListTaxonomiesAbility.php:47
+#: includes/Abilities/Taxonomy/ListTermsAbility.php:53
+#: includes/Abilities/Taxonomy/UpdateTermAbility.php:48
+msgid "Taxonomies"
+msgstr ""
+
+#: includes/Abilities/Taxonomy/CreateTermAbility.php:57
+msgid "Taxonomy the term is created in."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/CreateTermAbility.php:61
+msgid "Term display name."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/CreateTermAbility.php:65
+msgid "Term slug. Auto-generated from the name if omitted."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/CreateTermAbility.php:72
+msgid "Term description."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/CreateTermAbility.php:76
+msgid "Parent term, for hierarchical taxonomies."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/CreateTermAbility.php:135
+msgid "The \"name\" parameter is required."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/DeleteTermAbility.php:31
+msgid "Delete a term"
+msgstr ""
+
+#: includes/Abilities/Taxonomy/DeleteTermAbility.php:38
+msgid "Permanently deletes a taxonomy term."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/DeleteTermAbility.php:57
+msgid "Identifier of the term to delete."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/DeleteTermAbility.php:61
+#: includes/Abilities/Taxonomy/GetTermAbility.php:64
+msgid "Taxonomy the term belongs to. Optional if the ID is unambiguous."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/DeleteTermAbility.php:134
+msgid "Unable to delete the term."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/GetTermAbility.php:31
+msgid "Get a term"
+msgstr ""
+
+#: includes/Abilities/Taxonomy/GetTermAbility.php:38
+msgid "Retrieves a taxonomy term by ID (name, slug, description, parent, count)."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/GetTermAbility.php:60
+msgid "Identifier of the term to retrieve."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/ListTaxonomiesAbility.php:30
+msgid "List taxonomies"
+msgstr ""
+
+#: includes/Abilities/Taxonomy/ListTaxonomiesAbility.php:37
+msgid "Lists all public taxonomies (category, post_tag, custom)."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/ListTermsAbility.php:36
+msgid "List terms"
+msgstr ""
+
+#: includes/Abilities/Taxonomy/ListTermsAbility.php:43
+msgid "Lists the terms of a taxonomy, with search, parent filtering and pagination."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/ListTermsAbility.php:65
+msgid "Taxonomy slug."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/ListTermsAbility.php:69
+msgid "Restricts results to terms matching this string."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/ListTermsAbility.php:73
+msgid "Restricts results to the children of this term."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/ListTermsAbility.php:77
+msgid "Excludes terms not assigned to any content."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/ListTermsAbility.php:82
+msgid "Number of terms per page."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/TaxonomyFormatting.php:53
+msgid "The \"taxonomy\" parameter is required."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/TaxonomyFormatting.php:61
+msgid "This taxonomy is not managed by MCP abilities."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/UpdateTermAbility.php:31
+msgid "Update a term"
+msgstr ""
+
+#: includes/Abilities/Taxonomy/UpdateTermAbility.php:38
+msgid "Updates the name, slug, description or parent of an existing term."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/UpdateTermAbility.php:64
+msgid "Taxonomy the term belongs to."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/UpdateTermAbility.php:68
+msgid "New display name."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/UpdateTermAbility.php:72
+msgid "New slug."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/UpdateTermAbility.php:76
+#: includes/Abilities/Template/UpdateTemplateAbility.php:97
+msgid "New description."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/UpdateTermAbility.php:80
+msgid "New parent term, 0 to move the term to the root."
+msgstr ""
+
+#: includes/Abilities/Taxonomy/UpdateTermAbility.php:159
+msgid "Provide at least one field to update."
+msgstr ""
+
+#: includes/Abilities/Template/CreateTemplateAbility.php:39
+msgid "Create a template"
+msgstr ""
+
+#: includes/Abilities/Template/CreateTemplateAbility.php:46
+msgid "Creates a new block template or template part, tagged with the active theme."
+msgstr ""
+
+#: includes/Abilities/Template/CreateTemplateAbility.php:56
+#: includes/Abilities/Template/DeleteTemplateAbility.php:54
+#: includes/Abilities/Template/GetTemplateAbility.php:48
+#: includes/Abilities/Template/ListTemplatesAbility.php:56
+#: includes/Abilities/Template/UpdateTemplateAbility.php:69
+msgid "Templates"
+msgstr ""
+
+#: includes/Abilities/Template/CreateTemplateAbility.php:69
+msgid "Unique slug identifying the template."
+msgstr ""
+
+#: includes/Abilities/Template/CreateTemplateAbility.php:73
+msgid "Template title."
+msgstr ""
+
+#: includes/Abilities/Template/CreateTemplateAbility.php:77
+msgid "Template description."
+msgstr ""
+
+#: includes/Abilities/Template/CreateTemplateAbility.php:81
+msgid "Serialized block markup making up the template."
+msgstr ""
+
+#: includes/Abilities/Template/CreateTemplateAbility.php:85
+msgid "Template part area (uncategorized, header, footer, navigation-overlay). Only used when \"type\" is \"wp_template_part\"; invalid values fall back to \"uncategorized\"."
+msgstr ""
+
+#: includes/Abilities/Template/CreateTemplateAbility.php:106
+#: includes/Abilities/Template/UpdateTemplateAbility.php:134
+msgid "True when the stored content differs from the submitted content, meaning wp_filter_post_kses() stripped disallowed markup (the caller lacks the unfiltered_html capability)."
+msgstr ""
+
+#: includes/Abilities/Template/CreateTemplateAbility.php:158
+msgid "The \"slug\" parameter is required."
+msgstr ""
+
+#: includes/Abilities/Template/CreateTemplateAbility.php:174
+msgid "A custom template already exists with this slug. Use the update ability instead."
+msgstr ""
+
+#: includes/Abilities/Template/CreateTemplateAbility.php:220
+msgid "The template was created but could not be resolved."
+msgstr ""
+
+#: includes/Abilities/Template/DeleteTemplateAbility.php:37
+msgid "Delete a template"
+msgstr ""
+
+#: includes/Abilities/Template/DeleteTemplateAbility.php:44
+msgid "Trashes or permanently deletes a customised block template or template part."
+msgstr ""
+
+#: includes/Abilities/Template/DeleteTemplateAbility.php:67
+#: includes/Abilities/Template/GetTemplateAbility.php:61
+#: includes/Abilities/Template/UpdateTemplateAbility.php:82
+msgid "Composite identifier, formatted as \"{theme}//{slug}\"."
+msgstr ""
+
+#: includes/Abilities/Template/DeleteTemplateAbility.php:71
+#: includes/Abilities/Template/GetTemplateAbility.php:65
+#: includes/Abilities/Template/UpdateTemplateAbility.php:86
+msgid "Template slug. Used instead of \"id\", completed with the active theme."
+msgstr ""
+
+#: includes/Abilities/Template/DeleteTemplateAbility.php:78
+msgid "Whether to bypass Trash and delete permanently."
+msgstr ""
+
+#: includes/Abilities/Template/DeleteTemplateAbility.php:144
+msgid "Templates that come from the theme files cannot be deleted."
+msgstr ""
+
+#: includes/Abilities/Template/DeleteTemplateAbility.php:157
+msgid "The template has already been deleted."
+msgstr ""
+
+#: includes/Abilities/Template/DeleteTemplateAbility.php:168
+msgid "Unable to delete the template."
+msgstr ""
+
+#: includes/Abilities/Template/GetTemplateAbility.php:31
+msgid "Get a template"
+msgstr ""
+
+#: includes/Abilities/Template/GetTemplateAbility.php:38
+msgid "Retrieves a block template or template part, whether it comes from a theme file or a customised post."
+msgstr ""
+
+#: includes/Abilities/Template/ListTemplatesAbility.php:39
+msgid "List templates"
+msgstr ""
+
+#: includes/Abilities/Template/ListTemplatesAbility.php:46
+msgid "Lists block templates or template parts of the active theme, with pagination."
+msgstr ""
+
+#: includes/Abilities/Template/ListTemplatesAbility.php:69
+msgid "Restricts results to this template part area. Only used when \"type\" is \"wp_template_part\"."
+msgstr ""
+
+#: includes/Abilities/Template/ListTemplatesAbility.php:76
+msgid "Number of templates per page."
+msgstr ""
+
+#: includes/Abilities/Template/TemplateAccess.php:49
+msgid "The \"type\" parameter must be \"wp_template\" or \"wp_template_part\"."
+msgstr ""
+
+#: includes/Abilities/Template/TemplateAccess.php:67
+msgid "The \"slug\" parameter must only contain letters, numbers, underscores, percent signs or hyphens."
+msgstr ""
+
+#: includes/Abilities/Template/TemplateAccess.php:94
+#: includes/Abilities/Template/TemplateAccess.php:105
+msgid "The \"id\" parameter must be formatted as \"{theme}//{slug}\"."
+msgstr ""
+
+#: includes/Abilities/Template/TemplateAccess.php:123
+msgid "Provide either \"id\" or \"slug\"."
+msgstr ""
+
+#: includes/Abilities/Template/TemplateAccess.php:155
+msgid "No template exists with that id."
+msgstr ""
+
+#: includes/Abilities/Template/TemplateAccess.php:258
+msgid "Which kind of template to target: \"wp_template\" for a full page template or \"wp_template_part\" for a reusable part (header, footer, navigation overlay…)."
+msgstr ""
+
+#: includes/Abilities/Template/UpdateTemplateAbility.php:52
+msgid "Update a template"
+msgstr ""
+
+#: includes/Abilities/Template/UpdateTemplateAbility.php:59
+msgid "Updates the title, description, content or area of a template, or reverts it to its theme file."
+msgstr ""
+
+#: includes/Abilities/Template/UpdateTemplateAbility.php:101
+msgid "New serialized block markup."
+msgstr ""
+
+#: includes/Abilities/Template/UpdateTemplateAbility.php:105
+msgid "New template part area. Only used when \"type\" is \"wp_template_part\"; invalid values fall back to \"uncategorized\"."
+msgstr ""
+
+#: includes/Abilities/Template/UpdateTemplateAbility.php:112
+msgid "When true, discards the customisation and lets the theme file resurface instead of updating any field."
+msgstr ""
+
+#: includes/Abilities/Template/UpdateTemplateAbility.php:207
+msgid "This template has no customisation to revert; it already resolves to its theme file."
+msgstr ""
+
+#: includes/Abilities/Template/UpdateTemplateAbility.php:215
+msgid "This template only exists as a custom post; reverting would delete it entirely. Use the delete ability instead."
+msgstr ""
+
+#: includes/Abilities/Template/UpdateTemplateAbility.php:225
+msgid "Unable to revert the template."
+msgstr ""
+
+#: includes/Abilities/Template/UpdateTemplateAbility.php:262
+msgid "Provide at least one field to update, or set \"revert\" to true."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/CreateProductAbility.php:30
+msgid "Create a product"
+msgstr ""
+
+#: includes/Abilities/WooCommerce/CreateProductAbility.php:37
+msgid "Creates a WooCommerce product. Accepts every field of the REST API: type, price and dated sale, stock, references, dimensions, taxonomies, images, attributes and default attributes. Prices set on a variable product are derived from its variations."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/CreateProductAbility.php:47
+#: includes/Abilities/WooCommerce/CreateProductAttributeAbility.php:47
+#: includes/Abilities/WooCommerce/CreateProductVariationAbility.php:47
+#: includes/Abilities/WooCommerce/DeleteProductVariationAbility.php:47
+#: includes/Abilities/WooCommerce/GetProductVariationAbility.php:47
+#: includes/Abilities/WooCommerce/ListProductAttributesAbility.php:47
+#: includes/Abilities/WooCommerce/ListProductVariationsAbility.php:47
+#: includes/Abilities/WooCommerce/UpdateProductAbility.php:47
+#: includes/Abilities/WooCommerce/UpdateProductVariationAbility.php:47
+msgid "WooCommerce"
+msgstr ""
+
+#: includes/Abilities/WooCommerce/CreateProductAttributeAbility.php:30
+msgid "Create a product attribute"
+msgstr ""
+
+#: includes/Abilities/WooCommerce/CreateProductAttributeAbility.php:37
+msgid "Creates a global WooCommerce product attribute. Its terms are created along the way when a product is given values for it."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/CreateProductVariationAbility.php:30
+msgid "Create a product variation"
+msgstr ""
+
+#: includes/Abilities/WooCommerce/CreateProductVariationAbility.php:37
+msgid "Creates a variation on a WooCommerce variable product. Each entry of \"attributes\" pairs an attribute of the parent with one of its values; an empty value means any. The parent must be of type variable and carry attributes marked for variation."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/CreateProductVariationAbility.php:66
+#: includes/Abilities/WooCommerce/DeleteProductVariationAbility.php:73
+#: includes/Abilities/WooCommerce/GetProductVariationAbility.php:66
+#: includes/Abilities/WooCommerce/ListProductVariationsAbility.php:66
+#: includes/Abilities/WooCommerce/UpdateProductVariationAbility.php:66
+msgid "Id of the parent product."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/DeleteProductVariationAbility.php:30
+msgid "Delete a product variation"
+msgstr ""
+
+#: includes/Abilities/WooCommerce/DeleteProductVariationAbility.php:37
+msgid "Permanently deletes a WooCommerce product variation."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/DeleteProductVariationAbility.php:77
+msgid "Id of the variation to delete."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/GetProductVariationAbility.php:30
+msgid "Get a product variation"
+msgstr ""
+
+#: includes/Abilities/WooCommerce/GetProductVariationAbility.php:37
+msgid "Retrieves a WooCommerce product variation with its attributes, price, stock and dimensions."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/GetProductVariationAbility.php:70
+msgid "Id of the variation."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/ListProductAttributesAbility.php:30
+msgid "List product attributes"
+msgstr ""
+
+#: includes/Abilities/WooCommerce/ListProductAttributesAbility.php:37
+msgid "Lists the global WooCommerce product attributes with their taxonomy names, types and ordering."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/ListProductVariationsAbility.php:30
+msgid "List product variations"
+msgstr ""
+
+#: includes/Abilities/WooCommerce/ListProductVariationsAbility.php:37
+msgid "Lists the variations of a WooCommerce variable product, with their attributes, prices and stock."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/RestDelegation.php:218
+msgid "Permission probe, the request stops here."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/RestDelegation.php:279
+msgid "Comma separated list of the fields to return, for instance \"id,name,sku,price,stock_quantity\". Everything is returned when it is left out."
+msgstr ""
+
+#. translators: %s: REST controller class name.
+#: includes/Abilities/WooCommerce/RestDelegation.php:337
+#, php-format
+msgid "The WooCommerce REST controller %s is missing: the ability falls back on an unconstrained schema."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/RestDelegation.php:379
+msgid "Item as returned by the WooCommerce REST API, minus its _links."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/RestDelegation.php:422
+msgid "Number of matching items, absent when WooCommerce did not report one."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/RestDelegation.php:429
+msgid "Number of pages, absent when WooCommerce did not report one."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/RestDelegation.php:580
+msgid "WooCommerce is not active on this site."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/UpdateProductAbility.php:30
+msgid "Update a product"
+msgstr ""
+
+#: includes/Abilities/WooCommerce/UpdateProductAbility.php:37
+msgid "Updates a WooCommerce product. Only the fields sent are written, and \"type\" may turn a simple product into a variable one."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/UpdateProductAbility.php:66
+msgid "Id of the product to update."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/UpdateProductVariationAbility.php:30
+msgid "Update a product variation"
+msgstr ""
+
+#: includes/Abilities/WooCommerce/UpdateProductVariationAbility.php:37
+msgid "Updates a WooCommerce product variation: attribute values, price, stock, reference or dimensions. Sending \"attributes\" replaces the current pairs, as the WooCommerce admin does."
+msgstr ""
+
+#: includes/Abilities/WooCommerce/UpdateProductVariationAbility.php:70
+msgid "Id of the variation to update."
+msgstr ""
+
+#: includes/AbilityCategories/ContentAbilityCategory.php:34
+msgid "Abilities for WordPress content management."
+msgstr ""
+
+#: includes/Hooks/Admin/RegisterAbilitiesPage.php:41
+#: includes/Hooks/Admin/RegisterAbilitiesPage.php:42
+#: includes/Hooks/Admin/RegisterAbilitiesPage.php:67
+#: includes/Hooks/Admin/RegisterAbilitiesPage.php:95
+msgid "MCP Abilities"
+msgstr ""
+
+#: includes/Hooks/Admin/RegisterAbilitiesPage.php:70
+msgid "Pick the abilities exposed to MCP clients. Destructive abilities are off until you enable them."
+msgstr ""
+
+#: includes/Hooks/Admin/RegisterAbilitiesPage.php:96
+msgid "No ability is available on this site."
+msgstr ""
+
+#. translators: %s: namespace of the plugin owning the abilities.
+#: includes/Hooks/Admin/RegisterAbilitiesSettings.php:164
+#, php-format
+msgid "Other plugin: %s"
+msgstr ""
+
+#: includes/Hooks/Admin/RegisterAbilitiesSettings.php:198
+msgid "These abilities come from another plugin. Unchecking one hides it from MCP requests: an agent no longer lists it, and can no longer run it. The rest of the site is untouched, and the plugin providing it keeps using it as usual."
+msgstr ""
+
+#: includes/Hooks/Admin/RegisterAbilitiesSettings.php:206
+msgid "Some of them were never meant for an agent by the plugin that registered them. Checking such a one hands it to the MCP server as a tool. It grants no right: the ability decides for itself who may call it, exactly as it does elsewhere. What changes is that an agent can now reach it."
+msgstr ""
+
+#: includes/Hooks/Admin/RegisterAbilitiesSettings.php:236
+msgid "This site switches off the default MCP server. Exposing an ability here will have no effect until a server declares it."
+msgstr ""
+
+#: includes/Hooks/Admin/RegisterAbilitiesSettings.php:282
+msgid "Closed to MCP by its own declaration. Check to hand it to an agent."
+msgstr ""
+
+#: includes/Hooks/Admin/RegisterAbilitiesSettings.php:285
+msgid "Declares itself destructive."
+msgstr ""
+
+#: includes/Hooks/RequirementsNotice.php:55
+msgid "WP MCP Abilities cannot register its abilities."
+msgstr ""
+
+#: includes/Hooks/RequirementsNotice.php:56
+msgid "WP MCP Abilities is not reachable by MCP clients yet."
+msgstr ""
+
+#: includes/Hooks/RequirementsNotice.php:67
+msgid "Download the MCP Adapter"
+msgstr ""
+
+#: includes/Support/AbstractAbility.php:154
+#: includes/Support/PostTypeAbility.php:621
+msgid "Post not found."
+msgstr ""
+
+#: includes/Support/AbstractAbility.php:175
+msgid "Term not found."
+msgstr ""
+
+#: includes/Support/AbstractAbility.php:189
+msgid "You are not allowed to perform this action."
+msgstr ""
+
+#. translators: %s: plural label of the post type (e.g. "Posts").
+#: includes/Support/PostTypeAbility.php:73
+#, php-format
+msgid "List %s"
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:75
+#, php-format
+msgid "Get a %s"
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:77
+#, php-format
+msgid "Create a %s"
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:79
+#, php-format
+msgid "Update a %s"
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:81
+#, php-format
+msgid "Delete a %s"
+msgstr ""
+
+#. translators: %s: plural label of the post type (e.g. "Posts").
+#: includes/Support/PostTypeAbility.php:94
+#, php-format
+msgid "Lists all published and draft %s."
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:96
+#, php-format
+msgid "Retrieves the full content of a %s."
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:98
+#, php-format
+msgid "Creates a new %s."
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:100
+#, php-format
+msgid "Updates an existing %s."
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:103
+#, php-format
+msgid "Deletes a %s (trash by default, permanent if force=true)."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:151
+#: includes/Support/PostTypeAbility.php:166
+msgid "Status actually stored, which is not always the one asked for: a \"publish\" carrying a future date is scheduled by WordPress as \"future\"."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:155
+#: includes/Support/PostTypeAbility.php:170
+msgid "Publication date actually stored."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:460
+msgid "You are not allowed to pin a post."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:597
+msgid "Unable to delete the content."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:669
+msgid "The \"date\" parameter could not be read. Expected format: YYYY-MM-DD HH:MM:SS."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:755
+msgid "Number of items per page."
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:782
+#: includes/Support/PostTypeAbility.php:817
+#, php-format
+msgid "The %s ID."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:791
+msgid "Permanently delete (skip trash)."
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:824
+#, php-format
+msgid "The %s title."
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:830
+#, php-format
+msgid "The HTML content of the %s."
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:836
+#, php-format
+msgid "The %s excerpt."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:841
+msgid "The URL slug (post_name). Auto-generated from the title if omitted."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:849
+msgid "The status (draft, publish)."
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:861
+#, php-format
+msgid "The parent %s ID."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:869
+msgid "The IDs of categories to assign. Equivalent to the \"category\" entry of \"terms\"."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:880
+msgid "Term IDs to assign, keyed by taxonomy. Each taxonomy sent replaces the terms already assigned in it; a taxonomy left out is untouched, and an empty array clears it."
+msgstr ""
+
+#. translators: %s: singular label of the post type (e.g. "Post").
+#: includes/Support/PostTypeAbility.php:891
+#, php-format
+msgid "The user ID to assign as author of the %s."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:904
+msgid "The publication date (YYYY-MM-DD HH:MM:SS), in site time."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:910
+msgid "Pin as sticky (true) or unpin (false)."
+msgstr ""
+
+#: includes/Support/PostTypeAbility.php:971
+msgid "Term IDs assigned to the post, keyed by taxonomy."
+msgstr ""
+
+#. translators: 1: taxonomy label (e.g. "Categories"), 2: taxonomy slug.
+#: includes/Support/PostTypeTaxonomies.php:94
+#, php-format
+msgid "Term IDs in %1$s (%2$s)."
+msgstr ""
+
+#: includes/Support/PostTypeTaxonomies.php:127
+msgid "Send either \"category_ids\" or the \"category\" entry of \"terms\", not both: they write the same taxonomy."
+msgstr ""
+
+#: includes/Support/PostTypeTaxonomies.php:135
+msgid "The \"terms\" parameter must be an object keyed by taxonomy."
+msgstr ""
+
+#. translators: 1: taxonomy slug, 2: post type slug.
+#: includes/Support/PostTypeTaxonomies.php:150
+#, php-format
+msgid "The \"%1$s\" taxonomy is not registered for the \"%2$s\" post type, or is not open to MCP abilities."
+msgstr ""
+
+#. translators: %s: taxonomy slug.
+#: includes/Support/PostTypeTaxonomies.php:163
+#, php-format
+msgid "The \"%s\" entry of \"terms\" must be an array of term IDs."
+msgstr ""
+
+#. translators: %s: taxonomy slug.
+#: includes/Support/PostTypeTaxonomies.php:175
+#, php-format
+msgid "You are not allowed to assign terms in the \"%s\" taxonomy."
+msgstr ""
+
+#. translators: %s: taxonomy slug.
+#: includes/Support/PostTypeTaxonomies.php:188
+#, php-format
+msgid "The \"%s\" entry of \"terms\" must only contain term IDs."
+msgstr ""
+
+#. translators: 1: term ID, 2: taxonomy slug.
+#: includes/Support/PostTypeTaxonomies.php:200
+#, php-format
+msgid "Term %1$d does not exist in the \"%2$s\" taxonomy."
+msgstr ""
+
+#: includes/Support/Requirements.php:76
+msgid "The Abilities API is missing."
+msgstr ""
+
+#. translators: 1: current WordPress version, 2: first version shipping the Abilities API.
+#: includes/Support/Requirements.php:79
+#, php-format
+msgid "This site runs WordPress %1$s, and the Abilities API only ships with core from %2$s onwards. Updating WordPress is the way out: the feature plugin that used to provide it is now abandoned."
+msgstr ""
+
+#: includes/Support/Requirements.php:93
+msgid "The MCP Adapter plugin is not running."
+msgstr ""
+
+#: includes/Support/Requirements.php:94
+msgid "The abilities are registered and available through the Abilities API, but no MCP client can reach them until the MCP Adapter is installed and active."
+msgstr ""

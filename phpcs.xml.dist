@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<ruleset name="WP MCP Abilities">
+	<description>Rules for WP MCP Abilities. Hybrid configuration combining PSR-12 and WordPress Coding Standards.</description>
+
+	<!-- Only scan PHP files. -->
+	<arg name="extensions" value="php" />
+
+	<file>./</file>
+
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/tests/*</exclude-pattern>
+	<exclude-pattern>/docs/*</exclude-pattern>
+	<exclude-pattern>node_modules/*</exclude-pattern>
+	<exclude-pattern>languages/*</exclude-pattern>
+	<exclude-pattern>config/*</exclude-pattern>
+
+	<!-- Check up to 8 files simultaneously. -->
+	<arg name="parallel" value="8" />
+
+	<!-- Show sniff codes in all reports. -->
+	<arg value="ps" />
+
+	<!-- Whenever possible, cache the scan results and re-use those for unchanged files on the next scan. -->
+	<arg name="cache" value="/tmp/phpcs-wp-mcp-abilities-cache" />
+
+	<!-- Include PSR-12 standard for modern PHP practices -->
+	<rule ref="PSR12">
+		<!-- Exclude rules that conflict with WordPress -->
+		<exclude name="PSR12.Files.FileHeader.SpacingAfterBlock"/>
+		<exclude name="PSR1.Files.SideEffects"/>
+		<!-- Exclude ALL PSR-12 formatting rules - let WordPress handle formatting -->
+		<exclude name="PSR12.ControlStructures"/>
+		<exclude name="PSR12.Functions"/>
+		<exclude name="PSR2.Methods.FunctionCallSignature"/>
+	</rule>
+
+	<!-- Include WordPress standards with customizations -->
+	<rule ref="WordPress-Extra">
+		<!-- Exclude rules that conflict with modern PHP/PSR practices -->
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase"/>
+		<exclude name="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid"/>
+		<exclude name="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase"/>
+		<exclude name="WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase"/>
+		<exclude name="WordPress.Arrays.MultipleStatementAlignment"/>
+		<exclude name="WordPress.Arrays.ArrayDeclarationSpacing"/>
+		<exclude name="WordPress.Arrays.ArrayIndentation"/>
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound"/>
+		<exclude name="Generic.WhiteSpace.DisallowSpaceIndent"/>
+		<exclude name="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed"/>
+		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag"/>
+		<exclude name="Squiz.Commenting.FileComment.Missing"/>
+		<exclude name="Modernize.FunctionCalls.Dirname.FileConstant"/>
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found"/>
+		<exclude name="NormalizedArrays.Arrays.ArrayBraceSpacing"/>
+		<exclude name="NormalizedArrays.Arrays.ArrayBraceSpacing.SpaceAfterArrayOpenerSingleLine"/>
+		<exclude name="NormalizedArrays.Arrays.ArrayBraceSpacing.SpaceBeforeArrayCloserSingleLine"/>
+		<!-- Allow @inheritDoc without additional description -->
+		<exclude name="Generic.Commenting.DocComment.MissingShort"/>
+	</rule>
+
+	<!-- Force WordPress spacing in control structures (if/foreach/etc.) -->
+	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing"/>
+
+	<!-- Security rules - Keep all WordPress security rules active -->
+	<rule ref="WordPress.Security.ValidatedSanitizedInput.InputNotSanitized">
+		<type>warning</type>
+	</rule>
+	<rule ref="WordPress.Security.NonceVerification.Recommended" />
+	<rule ref="WordPress.DateTime.RestrictedFunctions.date_date" />
+	<rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped">
+		<type>warning</type>
+	</rule>
+	<rule ref="WordPress.Security.NonceVerification.Missing" />
+	<rule ref="WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents" />
+	<rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedScript" />
+	<rule ref="WordPress.DB.DirectDatabaseQuery">
+		<type>warning</type>
+	</rule>
+
+	<!-- Documentation rules - Warning mode for progressive adoption -->
+	<rule ref="WordPress-Docs">
+		<exclude name="WordPress.Files.FileName"/>
+	</rule>
+
+	<!-- Additional rules -->
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
+		<type>warning</type>
+	</rule>
+	<rule ref="Generic.Commenting.Todo">
+		<type>warning</type>
+	</rule>
+	<rule ref="Generic.PHP.DeprecatedFunctions" />
+	<rule ref="Generic.Classes.DuplicateClassName" />
+
+	<!-- PHP version compatibility -->
+	<config name="testVersion" value="8.1-" />
+	<rule ref="PHPCompatibilityWP">
+		<include-pattern>*\.php$</include-pattern>
+	</rule>
+
+	<!-- WordPress version compatibility -->
+	<config name="minimum_wp_version" value="6.9" />
+
+	<!-- I18n configuration -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="wp-mcp-abilities" />
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Naming conventions -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="wpmcpa"/>
+				<element value="WpMcpAbilities"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Allow slashes in hook names for hierarchical organization -->
+	<rule ref="WordPress.NamingConventions.ValidHookName">
+		<properties>
+			<property name="additionalWordDelimiters" value="/"/>
+		</properties>
+	</rule>
+
+	<!-- Note: Short array syntax [] is allowed and preferred in modern PHP -->
+</ruleset>
