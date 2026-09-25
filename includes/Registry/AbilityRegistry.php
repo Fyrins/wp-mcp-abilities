@@ -170,13 +170,16 @@ final class AbilityRegistry implements HookInterface {
      * loads, before plugins loaded after it and before the theme, which would
      * miss the action. The registry is first read when the abilities are
      * registered or the settings screen is built, so at the earliest during
-     * `init`. The flag is raised before the action so that a callback reading
-     * the registry does not fire it again.
+     * `init`. A read made before `after_setup_theme`, by a `wpmcpa_loaded`
+     * callback for instance, gets the built-in abilities only and leaves the
+     * action for later, so that every plugin and the theme have hooked it by
+     * the time it fires. The flag is raised before the action so that a
+     * callback reading the registry does not fire it again.
      *
      * @return void
      */
     private function extend(): void {
-        if ( $this->extended ) {
+        if ( $this->extended || ! did_action( 'after_setup_theme' ) ) {
             return;
         }
         $this->extended  = true;

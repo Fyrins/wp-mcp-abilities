@@ -121,7 +121,8 @@ final class Plugin {
          * Fires once the plugin has built its services and attached its hooks.
          *
          * Custom abilities are better added on `wpmcpa_register_abilities`,
-         * which also reaches code loaded after this plugin.
+         * which also reaches code loaded after this plugin. Until
+         * `after_setup_theme`, the registry lists the built-in abilities only.
          *
          * @param AbilityRegistry $registry The plugin's ability registry.
          */
