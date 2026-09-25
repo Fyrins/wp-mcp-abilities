@@ -1,0 +1,33 @@
+{
+    "name": "fyrins/wp-mcp-abilities",
+    "description": "Content management abilities for AI agents, exposed through the WordPress Abilities API and the MCP Adapter.",
+    "type": "wordpress-plugin",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "keywords": [
+        "WordPress",
+        "Plugins",
+        "MCP",
+        "Abilities",
+        "AI"
+    ],
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.11",
+        "wp-coding-standards/wpcs": "^3.1",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+    },
+    "scripts": {
+        "lint": "phpcs --standard=phpcs.xml.dist --warning-severity=0",
+        "format": "phpcbf --standard=phpcs.xml.dist"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

@@ -1,0 +1,24 @@
+# Ignore all files and directories starting with . or ~ or ._ or ending with ~
+.*
+~*
+*~
+._*
+# but track
+!.distignore
+!.gitattributes
+!.github
+!.gitignore
+!.wordpress-org
+!.wordpress-org/.gitkeep
+
+# Controller scratch workspace
+.superpowers/
+
+# Dependencies
+node_modules
+/vendor/
+
+# Local-only development files
+/bin/smoke.sh
+/tests/
+/docs/

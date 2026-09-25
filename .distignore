@@ -1,0 +1,11 @@
+.*
+bin
+docs
+tests
+vendor
+node_modules
+composer.json
+composer.lock
+phpcs.xml.dist
+README.md
+CHANGELOG.md
