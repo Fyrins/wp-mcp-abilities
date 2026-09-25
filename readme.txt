@@ -59,7 +59,7 @@ Core and MCP Adapter abilities are never listed.
 
 = For developers =
 
-Every query, result and permission decision can be adjusted through `wpmcpa_*` filters, and new abilities can be added. Full reference on GitHub: https://github.com/Fyrins/wp-mcp-abilities
+Every query, result and permission decision can be adjusted through `wpmcpa_*` filters, and new abilities can be added. Custom abilities are added on the `wpmcpa_register_abilities` action, and every call can be observed or adjusted with `wpmcpa_before_execute`, `wpmcpa_execute_result` and `wpmcpa_after_execute`. Full reference on GitHub: https://github.com/Fyrins/wp-mcp-abilities
 
 == Installation ==
 

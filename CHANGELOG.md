@@ -20,6 +20,12 @@ First release as a standalone plugin. The abilities, their schemas, defaults and
 - `readme.txt` for WordPress.org, the full GPLv2 text in `LICENSE`, `.distignore` for the distributed package, and `.wordpress-org/` for the directory assets.
 - Continuous integration (PHP syntax check, PHPCS, Plugin Check on the built package) and deployment to WordPress.org on `v*` tags, guarded by `bin/check-versions.sh`.
 - `phpcs.xml.dist` with the WordPress Coding Standards, PHPCompatibilityWP (PHP 8.1 and later), the minimum WordPress version and the prefix and text domain checks, run by `composer lint` and `composer format`.
+- The `wpmcpa_register_abilities` action, fired once on first use of the registry (at the earliest during `init`), to add custom abilities extending `AbstractAbility`. They get a switch on the settings screen and go through the execution hooks. Objects that do not extend `AbstractAbility` are refused with `_doing_it_wrong()`; a later ability with the same name replaces the earlier one.
+- The `wpmcpa_before_execute` action, fired before an ability of the plugin runs, once its permission is granted. Abilities now run through `AbstractAbility::run()`, which calls `execute()`.
+- The `wpmcpa_execute_result` filter on the result of every ability of the plugin. A value other than an array or a `WP_Error` is ignored and reported with `_doing_it_wrong()`.
+- The `wpmcpa_after_execute` action, fired after an ability of the plugin ran, with its final result.
+- The `wpmcpa_ability_properties` filter on the arguments each ability hands to `wp_register_ability()`.
+- The `wpmcpa_loaded` action, fired at the end of `Plugin::boot()` with the registry.
 
 ### Changed
 

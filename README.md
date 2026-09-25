@@ -25,6 +25,7 @@ An agent connected over MCP can list, read, create, update and delete posts of e
 - [Third-party abilities](#third-party-abilities)
 - [Security model](#security-model)
 - [Filters reference](#filters-reference)
+- [Extending the plugin](#extending-the-plugin)
 - [Development](#development)
 - [Migrating from bsaweb-mcp-abilities](#migrating-from-bsaweb-mcp-abilities)
 - [Contributing](#contributing)
@@ -567,7 +568,25 @@ add_filter(
 
 ## Filters reference
 
-All filters are applied with `apply_filters()`; the parameters below are those passed, in order.
+All filters are applied with `apply_filters()` and all actions fired with `do_action()`; the parameters below are those passed, in order.
+
+### Actions
+
+| Action | Parameters | Purpose |
+| --- | --- | --- |
+| `wpmcpa_loaded` | `AbilityRegistry $registry` | Fires at the end of `Plugin::boot()`, once every service is built and every hook attached. Runs while the plugin's file loads, so only code loaded earlier (a mu-plugin) can listen to it. |
+| `wpmcpa_register_abilities` | `AbilityRegistry $registry` | Fires once, on first use of the registry (at the earliest during `init`), to add custom abilities with `$registry->addAbility()`. See [Extending the plugin](#extending-the-plugin). |
+| `wpmcpa_before_execute` | `string $name`, `mixed $input`, `AbstractAbility $ability` | Fires before an ability of the plugin runs, once the Abilities API has granted the permission. |
+| `wpmcpa_after_execute` | `string $name`, `mixed $input`, `array\|WP_Error $result`, `AbstractAbility $ability` | Fires after an ability of the plugin ran, with its final result. |
+
+The execution actions and the two filters below cover every ability of the plugin, the generated post type abilities and custom ones included.
+
+### Abilities and execution
+
+| Filter | Parameters | Purpose |
+| --- | --- | --- |
+| `wpmcpa_ability_properties` | `array $properties`, `AbstractAbility $ability` | Arguments passed to `wp_register_ability()`: label, description, schemas, `meta`, callbacks. Anything but an array is ignored. |
+| `wpmcpa_execute_result` | `array\|WP_Error $result`, `string $name`, `mixed $input`, `AbstractAbility $ability` | Result of an ability, before `wpmcpa_after_execute` and before it goes back to the caller. Must return an array or a `WP_Error`; anything else is ignored and reported with `_doing_it_wrong()`. |
 
 ### Registration and availability
 
@@ -582,7 +601,7 @@ All filters are applied with `apply_filters()`; the parameters below are those p
 | `wpmcpa_assignable_taxonomies` | `array<string, WP_Taxonomy> $taxonomies`, `WP_Post_Type $postType` | Taxonomies the post type abilities may assign terms in. |
 | `wpmcpa_mcp_route_prefixes` | `string[] $prefixes` | REST route prefixes treated as MCP traffic for third-party switches. Default `[ '/mcp/' ]`. |
 
-`wpmcpa_abilities` runs on `wp_abilities_api_init`. The plugin itself hooks it at priority 20 to drop abilities that are switched off or miss a dependency, so a callback at the default priority sees every static ability. Entries must implement `WpMcpAbilities\Contracts\AbilityInterface`; anything else is ignored. The generated post type abilities do not go through this filter (use the two post type filters). Abilities added here are registered but not listed on the settings screen.
+`wpmcpa_abilities` runs on `wp_abilities_api_init`. The plugin itself hooks it at priority 20 to drop abilities that are switched off or miss a dependency, so a callback at the default priority sees every static ability. Entries must implement `WpMcpAbilities\Contracts\AbilityInterface`; anything else is ignored. The generated post type abilities do not go through this filter (use the two post type filters). Abilities added here are registered but not listed on the settings screen; to add one that is, use `wpmcpa_register_abilities` (see [Extending the plugin](#extending-the-plugin)).
 
 ### Permissions and meta
 
@@ -703,6 +722,117 @@ Accept larger uploads:
 ```php
 add_filter( 'wpmcpa_upload_media_max_bytes', fn (): int => 25 * MB_IN_BYTES );
 ```
+
+## Extending the plugin
+
+A site, theme or plugin of your own can add abilities to this plugin, observe or adjust every call, and change what is registered, without touching the plugin's code.
+
+### Adding a custom ability
+
+A custom ability is a class extending `WpMcpAbilities\Support\AbstractAbility`, added to the registry on `wpmcpa_register_abilities`. It then behaves like the plugin's own: it gets a switch on the settings screen, in a section named after its group, goes through the execution hooks, and carries the `meta.mcp.public` flag and the `meta.wpmcpa.plugin` mark. Because of that mark it is listed with the plugin's abilities, not under "Other plugin".
+
+```php
+use WpMcpAbilities\Registry\AbilityRegistry;
+use WpMcpAbilities\Support\AbstractAbility;
+use WpMcpAbilities\Support\Capabilities;
+use WpMcpAbilities\Support\Input;
+
+add_action( 'wpmcpa_register_abilities', function ( AbilityRegistry $registry ): void {
+    $registry->addAbility( new class() extends AbstractAbility {
+        public function getName(): string {
+            return 'my-site/count-drafts';
+        }
+
+        public function getLabel(): string {
+            return __( 'Count drafts', 'my-site' );
+        }
+
+        public function getDescription(): string {
+            return __( 'Counts the drafts of a post type.', 'my-site' );
+        }
+
+        public function getGroup(): string {
+            return __( 'My site', 'my-site' );
+        }
+
+        public function getInputSchema(): array {
+            return [
+                'type'       => 'object',
+                'properties' => [
+                    'post_type' => [ 'type' => 'string', 'default' => 'post' ],
+                ],
+            ];
+        }
+
+        public function getOutputSchema(): array {
+            return [
+                'type'       => 'object',
+                'properties' => [ 'drafts' => [ 'type' => 'integer' ] ],
+            ];
+        }
+
+        public function checkPermission( mixed $input = null ): bool {
+            return Capabilities::canRead();
+        }
+
+        public function execute( mixed $input = null ): array|\WP_Error {
+            if ( ! Capabilities::canRead() ) {
+                return $this->forbidden();
+            }
+
+            $postType = Input::string( Input::normalize( $input ), 'post_type', 'post' );
+
+            if ( ! post_type_exists( $postType ) ) {
+                return new \WP_Error( 'invalid_post_type', __( 'Unknown post type.', 'my-site' ), [ 'status' => 400 ] );
+            }
+
+            return [ 'drafts' => (int) wp_count_posts( $postType )->draft ];
+        }
+    } );
+} );
+```
+
+A named class works just as well; an anonymous one keeps the example in one file. `isEnabledByDefault()` and `isAvailable()` can be overridden as for the plugin's own abilities (see [Adding an ability](#adding-an-ability)).
+
+What to know:
+
+- **When the action fires.** Once, the first time the registry is read: when the abilities are registered with the Abilities API, or when the settings screen is built. That is at the earliest during `init`, so a plugin loaded after this one or a theme's `functions.php` can hook it. It does not fire from `Plugin::boot()`, which runs while this plugin's file loads.
+- **Base class required.** Inside `wpmcpa_register_abilities`, the registry refuses any object that does not extend `AbstractAbility` and reports it with `_doing_it_wrong()`. The settings screen, the switches and the execution hooks all rely on that class; an ability without it would be registered yet impossible to list or switch off.
+- **Names.** Use a namespace of your own, such as `my-site/count-drafts`, not `wp-mcp-abilities/`. The name must follow the Abilities API rules: lowercase letters, digits and dashes, in the form `namespace/ability`.
+- **Duplicates.** The last ability added under a given name replaces the earlier one, the plugin's own included. Your own namespace avoids that by accident; reusing one of the plugin's names replaces its ability on purpose.
+- **Category.** Every ability of the plugin, custom ones included, is registered in the `wp-mcp-abilities` category. `wpmcpa_ability_properties` can move it to a category you register yourself.
+- **Switching off.** The switch is stored in the `wpmcpa_enabled` option under the ability's name, and `wpmcpa_is_enabled` applies to it like to any other.
+
+### Logging every call
+
+```php
+add_action( 'wpmcpa_after_execute', function ( string $name, mixed $input, array|\WP_Error $result ): void {
+    error_log( sprintf(
+        '[mcp] %s by user %d: %s',
+        $name,
+        get_current_user_id(),
+        is_wp_error( $result ) ? $result->get_error_code() : 'ok'
+    ) );
+}, 10, 3 );
+```
+
+`wpmcpa_before_execute` fires right before the ability runs, after the Abilities API has checked the permission. To change what a call returns, use `wpmcpa_execute_result`, which must return an array or a `WP_Error`.
+
+### Changing what is registered
+
+`wpmcpa_ability_properties` receives the arguments each ability hands to `wp_register_ability()`. For instance, to mark the plugin's read-only abilities as such for MCP clients:
+
+```php
+add_filter( 'wpmcpa_ability_properties', function ( array $properties, $ability ): array {
+    if ( preg_match( '#/(list|get)-#', $ability->getName() ) ) {
+        $properties['meta']['annotations']['readonly'] = true;
+    }
+
+    return $properties;
+}, 10, 2 );
+```
+
+Keep `meta.mcp.public` and `meta.wpmcpa.plugin` in place: without the first the adapter hides the ability, without the second it is listed as a third-party one.
 
 ## Development
 
