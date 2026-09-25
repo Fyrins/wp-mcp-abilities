@@ -5,7 +5,6 @@
 ._*
 # but track
 !.distignore
-!.editorconfig
 !.gitattributes
 !.github
 !.gitignore
@@ -18,3 +17,8 @@
 # Dependencies
 node_modules
 /vendor/
+
+# Local-only development files
+/bin/smoke.sh
+/tests/
+/docs/

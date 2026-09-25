@@ -25,7 +25,6 @@ An agent connected over MCP can list, read, create, update and delete posts of e
 - [Third-party abilities](#third-party-abilities)
 - [Security model](#security-model)
 - [Filters reference](#filters-reference)
-- [Recipes](#recipes)
 - [Development](#development)
 - [Migrating from bsaweb-mcp-abilities](#migrating-from-bsaweb-mcp-abilities)
 - [Contributing](#contributing)
@@ -705,14 +704,6 @@ Accept larger uploads:
 add_filter( 'wpmcpa_upload_media_max_bytes', fn (): int => 25 * MB_IN_BYTES );
 ```
 
-## Recipes
-
-The plugin ships no unit test suite. The files in [`docs/recipes/`](docs/recipes/) are acceptance scripts for the most intricate families; run them with WP-CLI on a site where the relevant plugins are active, after any change to that family. They live in the repository only and are not part of the distributed package.
-
-- [`woocommerce-catalogue.php`](docs/recipes/woocommerce-catalogue.php): `wp eval-file docs/recipes/woocommerce-catalogue.php --user=1` on a site running WooCommerce. Creates a global attribute and a variable product with six variations through the abilities, checks the parent's price range, then deletes everything it created. It covers logic, schemas and permissions, not the MCP transport.
-- [`third-party-switches.php`](docs/recipes/third-party-switches.php): `wp eval-file docs/recipes/third-party-switches.php` on a site where another plugin registers abilities. Switches off a third-party ability, then dispatches two REST requests to check that it is removed on MCP routes only. The option is restored afterwards.
-- [`third-party-exposure.php`](docs/recipes/third-party-exposure.php): `wp eval-file docs/recipes/third-party-exposure.php` on a site running a plugin whose abilities are closed to MCP (SEOPress 10, for instance). Checks a closed ability and verifies what the plugin declares to the default server, by applying the adapter's own configuration filter. Checking that an agent actually sees the tool still takes an MCP client.
-
 ## Development
 
 ### Setup
@@ -727,33 +718,9 @@ composer format    # PHP Code Beautifier and Fixer
 
 `phpcs.xml.dist` applies the WordPress Coding Standards, PHPCompatibilityWP for PHP 8.1 and later, the minimum WordPress version (6.9), and the text domain and prefix checks (`wpmcpa`, `WpMcpAbilities`).
 
-### Local WordPress and smoke tests
+### Testing locally
 
-`bin/smoke.sh` syncs the publishable package into a local WordPress site, runs every script of `tests/smoke/` with `wp eval-file`, and fails if a script fails or if `wp-content/debug.log` is not empty afterwards.
-
-```bash
-bin/smoke.sh                 # every smoke script
-bin/smoke.sh settings        # one script
-```
-
-It expects a site at `$WPMCPA_TESTBED` (default `~/Sites/wp-mcp-abilities-testbed`) with:
-
-- WordPress 6.9 or later, installed with WP-CLI (`wp core download`, `wp config create`, `wp core install`), with `WP_DEBUG` and `WP_DEBUG_LOG` on so errors land in `wp-content/debug.log`;
-- WP-CLI reachable as `ddev wp` (the script runs `ddev wp eval-file`; the site is a [DDEV](https://ddev.com/) project), and as `wp` inside that environment;
-- an executable `sync-plugin.sh` at the site root that copies the package into the plugins directory. For example:
-
-```sh
-#!/bin/sh
-set -e
-SRC="$HOME/code/wp-mcp-abilities"
-DEST="$(dirname "$0")/wp-content/plugins/wp-mcp-abilities"
-mkdir -p "$DEST"
-rsync -a --delete --exclude-from="$SRC/.distignore" "$SRC/" "$DEST/"
-```
-
-- the plugin active, and neither the MCP Adapter, WooCommerce nor SEOPress installed: the smoke scripts check the behaviour without them.
-
-The scripts cover registration on the plugin's own wiring, the optional adapter (warning notice and the screens it shows on, abilities registered anyway) and the settings switches.
+The repository ships no automated test suite. Test changes on a local WordPress 6.9+ site with `WP_DEBUG` and `WP_DEBUG_LOG` on: install the package (the files `.distignore` keeps), check that the abilities appear in `wp_get_abilities()`, run the ones you touched through the MCP Adapter, and make sure `wp-content/debug.log` stays empty. Run Plugin Check on the built package before a release.
 
 ### Translations
 
@@ -786,7 +753,7 @@ wp i18n make-mo languages/
 1. Create a class under `includes/Abilities/<Family>/` extending `WpMcpAbilities\Support\AbstractAbility`. It must be instantiable without arguments. Implement `getName()` (use `self::qualify( 'my-slug' )`), `getLabel()`, `getDescription()`, `getGroup()`, `getInputSchema()`, `getOutputSchema()`, `checkPermission()` and `execute()`. Override `isEnabledByDefault()` to return `false` if it deletes anything, and `isAvailable()` if it depends on another plugin.
 2. Add the class to `Plugin::ABILITIES` in `includes/Plugin.php`.
 3. Check capabilities against the targeted object with `Support\Capabilities`, in `checkPermission()` and again in `execute()`, and read input with `Support\Input`.
-4. Document it in this README, add a changelog entry, refresh the translation catalogue, run `composer lint` and `bin/smoke.sh`.
+4. Document it in this README, add a changelog entry, refresh the translation catalogue, run `composer lint` and test on a local site.
 
 ```php
 namespace WpMcpAbilities\Abilities\Content;
@@ -907,7 +874,7 @@ Steps:
 Issues and pull requests are welcome on [GitHub](https://github.com/Fyrins/wp-mcp-abilities). Before opening a pull request:
 
 - keep to the existing conventions (one class per ability, explicit wiring in `Plugin.php`, capabilities checked against the target object);
-- run `composer lint` and `bin/smoke.sh`;
+- run `composer lint` and test the change on a local WordPress site;
 - document any new ability, parameter or filter in this README, and add an entry under `[Unreleased]` in `CHANGELOG.md`;
 - write commit messages following [Conventional Commits](https://www.conventionalcommits.org/).
 

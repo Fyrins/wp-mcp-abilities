@@ -19,9 +19,7 @@ First release as a standalone plugin. The abilities, their schemas, defaults and
 - The MCP Adapter is optional. Without it, the abilities are still registered through the core Abilities API and usable by any other consumer. The admin notice becomes a warning, shown only on the Plugins screen and the plugin's settings screen, links to the adapter's GitHub releases, and suggests `wp plugin activate mcp-adapter` when the adapter's folder is already there. A missing Abilities API is still reported as an error, on every admin screen.
 - `readme.txt` for WordPress.org, the full GPLv2 text in `LICENSE`, `.distignore` for the distributed package, and `.wordpress-org/` for the directory assets.
 - Continuous integration (PHP syntax check, PHPCS, Plugin Check on the built package) and deployment to WordPress.org on `v*` tags, guarded by `bin/check-versions.sh`.
-- Smoke tests in `tests/smoke/`, run against a local WordPress by `bin/smoke.sh` (`WPMCPA_TESTBED` sets the site path). They cover registration without the former framework, the optional adapter and the settings switches.
 - `phpcs.xml.dist` with the WordPress Coding Standards, PHPCompatibilityWP (PHP 8.1 and later), the minimum WordPress version and the prefix and text domain checks, run by `composer lint` and `composer format`.
-- The acceptance recipes in `docs/recipes/` are tracked in the repository again, in English. They are not part of the distributed package.
 
 ### Changed
 
@@ -36,7 +34,7 @@ First release as a standalone plugin. The abilities, their schemas, defaults and
 - No `Requires Plugins` header: the MCP Adapter is not hosted on WordPress.org, so the header could not name it.
 - Composer package: `fyrins/wp-mcp-abilities`, with no runtime dependency. The MCP Adapter is no longer pulled in by Composer.
 - Translations are loaded just in time by WordPress. The POT file was regenerated and the French translation updated.
-- README, changelog and recipes rewritten in English.
+- README and changelog rewritten in English.
 
 ### Removed
 
