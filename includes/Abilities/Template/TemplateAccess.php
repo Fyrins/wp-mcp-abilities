@@ -21,11 +21,14 @@ defined( 'ABSPATH' ) || exit;
  */
 trait TemplateAccess {
     /**
-     * Post types this trait is allowed to operate on.
+     * Post types this trait is allowed to operate on. A method rather than a
+     * constant: traits only accept constants from PHP 8.2.
      *
-     * @var string[]
+     * @return string[]
      */
-    private const TYPES = [ 'wp_template', 'wp_template_part' ];
+    private static function templateTypes(): array {
+        return [ 'wp_template', 'wp_template_part' ];
+    }
 
     /**
      * Reads the `type` parameter, defaulting to `wp_template`.
@@ -44,8 +47,8 @@ trait TemplateAccess {
      * @param string $type Post type to validate.
      * @return true|\WP_Error
      */
-    protected function validateType( string $type ): true|\WP_Error {
-        if ( ! in_array( $type, self::TYPES, true ) ) {
+    protected function validateType( string $type ): bool|\WP_Error { // `true` as a standalone type needs PHP 8.2.
+        if ( ! in_array( $type, self::templateTypes(), true ) ) {
             return new \WP_Error(
                 'invalid_template_type',
                 __( 'The "type" parameter must be "wp_template" or "wp_template_part".', 'wp-mcp-abilities' ),
@@ -62,7 +65,7 @@ trait TemplateAccess {
      * @param string $slug Slug to validate.
      * @return true|\WP_Error
      */
-    protected function validateSlug( string $slug ): true|\WP_Error {
+    protected function validateSlug( string $slug ): bool|\WP_Error { // `true` as a standalone type needs PHP 8.2.
         if ( '' === $slug || 1 !== preg_match( '/^[a-zA-Z0-9_%-]+$/', $slug ) ) {
             return new \WP_Error(
                 'invalid_slug',
@@ -255,7 +258,7 @@ trait TemplateAccess {
     protected function typeProperty(): array {
         return [
             'type'        => 'string',
-            'enum'        => self::TYPES,
+            'enum'        => self::templateTypes(),
             'default'     => 'wp_template',
             'description' => __(
                 'Which kind of template to target: "wp_template" for a full page template or "wp_template_part" for a reusable part (header, footer, navigation overlay…).',

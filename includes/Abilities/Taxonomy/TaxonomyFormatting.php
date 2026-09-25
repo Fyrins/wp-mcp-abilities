@@ -48,7 +48,7 @@ trait TaxonomyFormatting {
      * @param string $taxonomy Taxonomy slug.
      * @return true|\WP_Error
      */
-    protected function validateTaxonomy( string $taxonomy ): true|\WP_Error {
+    protected function validateTaxonomy( string $taxonomy ): bool|\WP_Error { // `true` as a standalone type needs PHP 8.2.
         if ( '' === $taxonomy ) {
             return new \WP_Error(
                 'missing_taxonomy',

@@ -26,9 +26,14 @@ trait RestDelegation {
      * Namespace of the WooCommerce REST API the catalogue talks to.
      *
      * Written once here rather than in every ability: a move to another version
-     * of the API is a single line, not a sweep through the family.
+     * of the API is a single line, not a sweep through the family. A method
+     * rather than a constant: traits only accept constants from PHP 8.2.
+     *
+     * @return string
      */
-    private const ROUTE_NAMESPACE = '/wc/v3';
+    private static function routeNamespace(): string {
+        return '/wc/v3';
+    }
 
 
     /**
@@ -37,7 +42,7 @@ trait RestDelegation {
      * @param int|null $productId Product id, or null for the collection.
      */
     protected function productsRoute( ?int $productId = null ): string {
-        return self::ROUTE_NAMESPACE . '/products' . ( null === $productId ? '' : '/' . $productId );
+        return self::routeNamespace() . '/products' . ( null === $productId ? '' : '/' . $productId );
     }
 
     /**
@@ -54,7 +59,7 @@ trait RestDelegation {
      * Route of the global product attributes.
      */
     protected function attributesRoute(): string {
-        return self::ROUTE_NAMESPACE . '/products/attributes';
+        return self::routeNamespace() . '/products/attributes';
     }
 
     /**
