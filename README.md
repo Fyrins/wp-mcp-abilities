@@ -574,7 +574,7 @@ All filters are applied with `apply_filters()` and all actions fired with `do_ac
 
 | Action | Parameters | Purpose |
 | --- | --- | --- |
-| `wpmcpa_loaded` | `AbilityRegistry $registry` | Fires at the end of `Plugin::boot()`, once every service is built and every hook attached. Runs while the plugin's file loads, so only code loaded earlier (a mu-plugin) can listen to it. |
+| `wpmcpa_loaded` | `AbilityRegistry $registry` | Fires at the end of `Plugin::boot()`, once every service is built and every hook attached. Runs while the plugin's file loads, so only code loaded earlier (a mu-plugin, or a plugin loaded before this one) can listen to it. Until `after_setup_theme`, the registry lists the built-in abilities only. |
 | `wpmcpa_register_abilities` | `AbilityRegistry $registry` | Fires once, on first use of the registry (at the earliest during `init`), to add custom abilities with `$registry->addAbility()`. See [Extending the plugin](#extending-the-plugin). |
 | `wpmcpa_before_execute` | `string $name`, `mixed $input`, `AbstractAbility $ability` | Fires before an ability of the plugin runs, once the Abilities API has granted the permission. |
 | `wpmcpa_after_execute` | `string $name`, `mixed $input`, `array\|WP_Error $result`, `AbstractAbility $ability` | Fires after an ability of the plugin ran, with its final result. |
@@ -585,7 +585,7 @@ The execution actions and the two filters below cover every ability of the plugi
 
 | Filter | Parameters | Purpose |
 | --- | --- | --- |
-| `wpmcpa_ability_properties` | `array $properties`, `AbstractAbility $ability` | Arguments passed to `wp_register_ability()`: label, description, schemas, `meta`, callbacks. Anything but an array is ignored. |
+| `wpmcpa_ability_properties` | `array $properties`, `AbstractAbility $ability` | Arguments passed to `wp_register_ability()`: label, description, schemas, `meta`, callbacks. Anything but an array is ignored. Replacing `execute_callback` or `permission_callback` bypasses the execution hooks and the permission checks. |
 | `wpmcpa_execute_result` | `array\|WP_Error $result`, `string $name`, `mixed $input`, `AbstractAbility $ability` | Result of an ability, before `wpmcpa_after_execute` and before it goes back to the caller. Must return an array or a `WP_Error`; anything else is ignored and reported with `_doing_it_wrong()`. |
 
 ### Registration and availability
@@ -796,7 +796,7 @@ A named class works just as well; an anonymous one keeps the example in one file
 
 What to know:
 
-- **When the action fires.** Once, the first time the registry is read: when the abilities are registered with the Abilities API, or when the settings screen is built. That is at the earliest during `init`, so a plugin loaded after this one or a theme's `functions.php` can hook it. It does not fire from `Plugin::boot()`, which runs while this plugin's file loads.
+- **When the action fires.** Once, the first time the registry is read: when the abilities are registered with the Abilities API, or when the settings screen is built. That is at the earliest during `init`, so a plugin loaded after this one or a theme's `functions.php` can hook it. It does not fire from `Plugin::boot()`, which runs while this plugin's file loads, nor before `after_setup_theme`: until then, reading the registry (from `wpmcpa_loaded`, say) returns the built-in abilities only, and the action still fires later.
 - **Base class required.** Inside `wpmcpa_register_abilities`, the registry refuses any object that does not extend `AbstractAbility` and reports it with `_doing_it_wrong()`. The settings screen, the switches and the execution hooks all rely on that class; an ability without it would be registered yet impossible to list or switch off.
 - **Names.** Use a namespace of your own, such as `my-site/count-drafts`, not `wp-mcp-abilities/`. The name must follow the Abilities API rules: lowercase letters, digits and dashes, in the form `namespace/ability`.
 - **Duplicates.** The last ability added under a given name replaces the earlier one, the plugin's own included. Your own namespace avoids that by accident; reusing one of the plugin's names replaces its ability on purpose.
@@ -832,7 +832,7 @@ add_filter( 'wpmcpa_ability_properties', function ( array $properties, $ability 
 }, 10, 2 );
 ```
 
-Keep `meta.mcp.public` and `meta.wpmcpa.plugin` in place: without the first the adapter hides the ability, without the second it is listed as a third-party one.
+Keep `meta.mcp.public` and `meta.wpmcpa.plugin` in place: without the first the adapter hides the ability, without the second it is listed as a third-party one. Leave `execute_callback` and `permission_callback` alone too: replacing them bypasses the execution hooks (`wpmcpa_before_execute`, `wpmcpa_execute_result`, `wpmcpa_after_execute`) and the ability's own permission check.
 
 ## Development
 
