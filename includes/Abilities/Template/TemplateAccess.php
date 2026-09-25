@@ -47,7 +47,7 @@ trait TemplateAccess {
      * @param string $type Post type to validate.
      * @return true|\WP_Error
      */
-    protected function validateType( string $type ): bool|\WP_Error { // `true` as a standalone type needs PHP 8.2.
+    protected function validateType( string $type ): bool|\WP_Error {
         if ( ! in_array( $type, self::templateTypes(), true ) ) {
             return new \WP_Error(
                 'invalid_template_type',
@@ -65,7 +65,7 @@ trait TemplateAccess {
      * @param string $slug Slug to validate.
      * @return true|\WP_Error
      */
-    protected function validateSlug( string $slug ): bool|\WP_Error { // `true` as a standalone type needs PHP 8.2.
+    protected function validateSlug( string $slug ): bool|\WP_Error {
         if ( '' === $slug || 1 !== preg_match( '/^[a-zA-Z0-9_%-]+$/', $slug ) ) {
             return new \WP_Error(
                 'invalid_slug',
