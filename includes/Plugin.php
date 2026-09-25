@@ -116,5 +116,15 @@ final class Plugin {
             /** @var HookInterface $hook */
             $hook->hooks();
         }
+
+        /**
+         * Fires once the plugin has built its services and attached its hooks.
+         *
+         * Custom abilities are better added on `wpmcpa_register_abilities`,
+         * which also reaches code loaded after this plugin.
+         *
+         * @param AbilityRegistry $registry The plugin's ability registry.
+         */
+        do_action( 'wpmcpa_loaded', $registry );
     }
 }

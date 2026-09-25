@@ -114,14 +114,14 @@ abstract class AbstractAbility implements AbilityInterface {
      * @inheritDoc
      */
     public function getProperties(): array {
-        return [
+        $properties = [
             'label'               => $this->getLabel(),
             'description'         => $this->getDescription(),
             'category'            => ContentAbilityCategory::SLUG,
             'input_schema'        => $this->getInputSchema(),
             'output_schema'       => $this->getOutputSchema(),
             'permission_callback' => [ $this, 'checkPermission' ],
-            'execute_callback'    => [ $this, 'execute' ],
+            'execute_callback'    => [ $this, 'run' ],
 
             /*
              * Without this flag the ability is registered, yet stays invisible:
@@ -139,6 +139,82 @@ abstract class AbstractAbility implements AbilityInterface {
                 'wpmcpa' => [ 'plugin' => self::PLUGIN_MARK ],
             ],
         ];
+
+        /**
+         * Filters the arguments an ability hands to `wp_register_ability()`.
+         *
+         * Anything but an array is ignored.
+         *
+         * @param array<string, mixed> $properties Arguments of `wp_register_ability()`.
+         * @param AbstractAbility      $ability    Ability being registered.
+         */
+        $filtered = apply_filters( 'wpmcpa_ability_properties', $properties, $this );
+
+        return is_array( $filtered ) ? $filtered : $properties;
+    }
+
+    /**
+     * Runs the ability through the execution hooks.
+     *
+     * This is the `execute_callback` handed to the Abilities API; subclasses
+     * implement `execute()` and never override this.
+     *
+     * @param mixed $input Raw input coming from the MCP adapter.
+     * @return array<string, mixed>|\WP_Error
+     */
+    final public function run( mixed $input = null ): array|\WP_Error {
+        $name = $this->getName();
+
+        /**
+         * Fires before an ability of the plugin runs, once its permission is granted.
+         *
+         * @param string          $name    Ability name.
+         * @param mixed           $input   Raw input.
+         * @param AbstractAbility $ability Ability about to run.
+         */
+        do_action( 'wpmcpa_before_execute', $name, $input, $this );
+
+        $result = $this->execute( $input );
+
+        /**
+         * Filters the result of an ability of the plugin.
+         *
+         * Must return an array or a `WP_Error`; anything else is ignored.
+         *
+         * @param array<string, mixed>|\WP_Error $result  Result returned by the ability.
+         * @param string                         $name    Ability name.
+         * @param mixed                          $input   Raw input.
+         * @param AbstractAbility                $ability Ability that ran.
+         */
+        $filtered = apply_filters( 'wpmcpa_execute_result', $result, $name, $input, $this );
+
+        if ( is_array( $filtered ) || $filtered instanceof \WP_Error ) {
+            $result = $filtered;
+        } else {
+            _doing_it_wrong(
+                __METHOD__,
+                esc_html(
+                    sprintf(
+                        /* translators: %s: ability name. */
+                        __( 'The wpmcpa_execute_result filter must return an array or a WP_Error; the original result of "%s" was kept.', 'wp-mcp-abilities' ),
+                        $name
+                    )
+                ),
+                '1.0.0'
+            );
+        }
+
+        /**
+         * Fires after an ability of the plugin ran, with its final result.
+         *
+         * @param string                         $name    Ability name.
+         * @param mixed                          $input   Raw input.
+         * @param array<string, mixed>|\WP_Error $result  Result, after `wpmcpa_execute_result`.
+         * @param AbstractAbility                $ability Ability that ran.
+         */
+        do_action( 'wpmcpa_after_execute', $name, $input, $result, $this );
+
+        return $result;
     }
 
     /**
