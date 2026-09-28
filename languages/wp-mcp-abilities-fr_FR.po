@@ -304,12 +304,12 @@ msgstr "Le paramètre \"meta_key\" est obligatoire."
 msgid "The \"%s\" meta key is protected and has not been allowlisted for MCP abilities."
 msgstr "La clé de métadonnée \"%s\" est protégée et n'a pas été autorisée pour les abilities MCP."
 
-#: includes/Abilities/Meta/MetaAccess.php:127
 #: includes/Abilities/Meta/MetaAccess.php:140
+#: includes/Abilities/Meta/MetaAccess.php:153
 msgid "The \"meta_value\" parameter only accepts scalars or arrays of scalars."
 msgstr "Le paramètre \"meta_value\" n'accepte que des scalaires ou des tableaux de scalaires."
 
-#: includes/Abilities/Meta/MetaAccess.php:180
+#: includes/Abilities/Meta/MetaAccess.php:237
 msgid "The meta value. Accepts a string, number or boolean, or an array of such scalars; objects are rejected."
 msgstr "La valeur de la métadonnée. Accepte une chaîne, un nombre ou un booléen, ou un tableau de ces scalaires ; les objets sont rejetés."
 

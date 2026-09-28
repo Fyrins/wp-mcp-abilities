@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       WP MCP Abilities
  * Description:       Content management abilities for AI agents, exposed through the WordPress Abilities API and the MCP Adapter.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Requires at least: 6.9
  * Requires PHP:      8.1
  * Author:            Alexandre Revire
@@ -19,7 +19,7 @@ namespace WpMcpAbilities;
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'WPMCPA_VERSION', '1.0.0' );
+define( 'WPMCPA_VERSION', '1.1.0' );
 define( 'WPMCPA_FILE', __FILE__ );
 define( 'WPMCPA_DIR', __DIR__ );
 
