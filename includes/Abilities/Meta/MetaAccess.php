@@ -100,21 +100,34 @@ trait MetaAccess {
     /**
      * Sanitises a meta value, restricting it to scalars or arrays of scalars.
      *
-     * The legacy implementation stored whatever value the MCP client sent,
-     * including arbitrary arrays or objects. Objects are rejected outright and
-     * every string, in a scalar or in a list, is passed through
-     * `sanitize_text_field()`.
+     * Objects are rejected outright. Strings are then handled in one of two
+     * ways, according to the key being written.
      *
-     * @param mixed $rawMetaValue Raw "meta_value" input value.
+     * - A key registered with its own `sanitize_callback` gets its strings
+     *   untouched here: `update_metadata()` runs that callback through
+     *   `sanitize_meta()`, and it knows the value better than a generic rule.
+     *   Sanitising first would feed it an already altered value, which is how
+     *   an URL used to lose its `%20` before `esc_url_raw()` could keep it.
+     * - Any other key gets its strings stripped of tags and invalid UTF-8.
+     *   `sanitize_text_field()` did that too, but also removed line breaks and
+     *   every percent-encoded octet, so multiline values and encoded URLs came
+     *   back altered while the call reported a success.
+     *
+     * @param mixed  $rawMetaValue Raw "meta_value" input value.
+     * @param string $objectType   Meta object type, "post" or "term".
+     * @param string $metaKey      Resolved meta key.
+     * @param string $subtype      Post type or taxonomy of the object written to.
      * @return mixed|\WP_Error
      */
-    protected function sanitizeMetaValue( mixed $rawMetaValue ): mixed {
+    protected function sanitizeMetaValue( mixed $rawMetaValue, string $objectType = '', string $metaKey = '', string $subtype = '' ): mixed {
         if ( null === $rawMetaValue || is_bool( $rawMetaValue ) || is_int( $rawMetaValue ) || is_float( $rawMetaValue ) ) {
             return $rawMetaValue;
         }
 
+        $keepStrings = $this->hasOwnSanitizer( $objectType, $metaKey, $subtype );
+
         if ( is_string( $rawMetaValue ) ) {
-            return sanitize_text_field( $rawMetaValue );
+            return $keepStrings ? $rawMetaValue : $this->sanitizeString( $rawMetaValue );
         }
 
         if ( is_array( $rawMetaValue ) ) {
@@ -129,7 +142,7 @@ trait MetaAccess {
                     );
                 }
 
-                $sanitized[ $key ] = is_string( $item ) ? sanitize_text_field( $item ) : $item;
+                $sanitized[ $key ] = is_string( $item ) && ! $keepStrings ? $this->sanitizeString( $item ) : $item;
             }
 
             return $sanitized;
@@ -140,6 +153,50 @@ trait MetaAccess {
             __( 'The "meta_value" parameter only accepts scalars or arrays of scalars.', 'wp-mcp-abilities' ),
             [ 'status' => 400 ]
         );
+    }
+
+    /**
+     * Whether the key was registered with a sanitisation of its own.
+     *
+     * Read from what `register_meta()` recorded rather than from the
+     * `sanitize_{$objectType}_meta_{$metaKey}` filter it hooks: a third party
+     * may hook the same filter for logging or reshaping without neutralising
+     * anything, and that must not turn the generic sanitising off. A key can
+     * be registered for every object of its type or for one post type or
+     * taxonomy only, so both registries are read.
+     *
+     * @param string $objectType Meta object type.
+     * @param string $metaKey    Meta key.
+     * @param string $subtype    Post type or taxonomy.
+     */
+    private function hasOwnSanitizer( string $objectType, string $metaKey, string $subtype ): bool {
+        if ( '' === $objectType || '' === $metaKey ) {
+            return false;
+        }
+
+        foreach ( array_unique( [ $subtype, '' ] ) as $objectSubtype ) {
+            $registered = get_registered_meta_keys( $objectType, $objectSubtype );
+
+            if ( isset( $registered[ $metaKey ]['sanitize_callback'] ) && is_callable( $registered[ $metaKey ]['sanitize_callback'] ) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Strips tags and invalid UTF-8 from a string, keeping its content as is.
+     *
+     * Line breaks, percent-encoded octets and surrounding spaces are left
+     * alone: they are part of the value, not markup. A lone "<", as in
+     * "a < b", is encoded first, as `sanitize_text_field()` does, so that
+     * stripping tags does not swallow the text after it.
+     *
+     * @param string $value Raw string.
+     */
+    private function sanitizeString( string $value ): string {
+        return wp_strip_all_tags( wp_pre_kses_less_than( wp_check_invalid_utf8( $value ) ) );
     }
 
     /**

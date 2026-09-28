@@ -325,7 +325,7 @@ The download goes through core's `download_url()`, which refuses unsafe URLs suc
 
 Protected meta keys (prefixed with `_`, or declared protected with `is_protected_meta`) are never read, written or deleted unless they are on an allow-list, empty by default and filled through `wpmcpa_allowed_meta_keys`. A refused key gives `meta_key_not_allowed` (403).
 
-`meta_value` accepts a string, a number, a boolean, or an array of those; objects are refused with `invalid_meta_value`. Strings are sanitised with `sanitize_text_field()`.
+`meta_value` accepts a string, a number, a boolean, or an array of those; objects are refused with `invalid_meta_value`. A key registered through `register_meta()` with a `sanitize_callback` gets its strings as sent: that callback is what WordPress applies, for instance `esc_url_raw()` on a URL, which keeps its `%20`. Other keys have their strings stripped of tags and invalid UTF-8, keeping line breaks and percent-encoded octets.
 
 #### `wp-mcp-abilities/get-post-meta`
 
