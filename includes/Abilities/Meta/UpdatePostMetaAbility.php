@@ -124,7 +124,7 @@ class UpdatePostMetaAbility extends AbstractAbility {
             return $metaKey;
         }
 
-        $metaValue = $this->sanitizeMetaValue( $input['meta_value'] ?? null );
+        $metaValue = $this->sanitizeMetaValue( $input['meta_value'] ?? null, 'post', $metaKey, $post->post_type );
         if ( is_wp_error( $metaValue ) ) {
             return $metaValue;
         }

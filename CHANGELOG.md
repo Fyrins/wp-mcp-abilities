@@ -9,6 +9,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 - WP Grid Builder abilities, registered only when the plugin is active and reserved to `manage_options`: `list-wpgb-facets` lists facets with their settings and index row counts, `index-wpgb-facets` hands facets to the plugin's indexing queue (disabled by default), `clear-wpgb-cache` clears its cache. Ported from bsaweb-mcp-abilities 2.6.0.
 
+### Fixed
+
+- `update-post-meta` and `update-term-meta` no longer alter values in silence. Every string went through `sanitize_text_field()`, which drops percent-encoded octets and line breaks: a URL with `%20` lost its spaces before the key's own `sanitize_callback` saw it, and the call still reported a success. A key registered with a `sanitize_callback`, read from the meta registry rather than from the filter it hooks, now gets its strings as sent; other keys lose tags and invalid UTF-8 only, and a lone `<` is encoded first so that "a < b" keeps its text. Ported from bsaweb-mcp-abilities 2.6.1.
+
 ## [1.0.0] - 2026-09-25
 
 First release as a standalone plugin. The abilities, their schemas, defaults and permission checks are those of the release it was forked from (see the history below); what changes is how the plugin is built, named and distributed.
