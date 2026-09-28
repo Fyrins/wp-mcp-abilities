@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-25T17:01:37+02:00\n"
+"POT-Creation-Date: 2026-09-28T09:16:23+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-mcp-abilities\n"
@@ -95,6 +95,64 @@ msgstr ""
 #: includes/Abilities/Content/ReplaceInPostContentAbility.php:214
 #, php-format
 msgid "%1$d matches expected, %2$d found. Nothing was written."
+msgstr ""
+
+#: includes/Abilities/GridBuilder/ClearCacheAbility.php:38
+msgid "Clear WP Grid Builder cache"
+msgstr ""
+
+#: includes/Abilities/GridBuilder/ClearCacheAbility.php:45
+msgid "Clears the WP Grid Builder cache, as the button of its settings screen does. Use it when a facet shows stale or empty choices after an import or an indexing."
+msgstr ""
+
+#: includes/Abilities/GridBuilder/ClearCacheAbility.php:52
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:56
+#: includes/Abilities/GridBuilder/ListFacetsAbility.php:51
+msgid "WP Grid Builder"
+msgstr ""
+
+#: includes/Abilities/GridBuilder/GridBuilderAccess.php:105
+msgid "What the facet indexes, e.g. \"taxonomy/category\" or \"post_meta/start_date\". Empty for facets that index nothing (search, sort, pagination…)."
+msgstr ""
+
+#: includes/Abilities/GridBuilder/GridBuilderAccess.php:109
+msgid "Rows stored in the index for this facet."
+msgstr ""
+
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:42
+msgid "Index WP Grid Builder facets"
+msgstr ""
+
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:49
+msgid "Queues the given WP Grid Builder facets for indexing, as the \"Index\" button of the plugin does. Indexing runs in the background: call list-wpgb-facets to follow the index row counts, then clear-wpgb-cache once they are back so that facets stop serving cached choices."
+msgstr ""
+
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:85
+msgid "IDs of the facets to index."
+msgstr ""
+
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:102
+msgid "IDs of the facets handed to the indexing queue."
+msgstr ""
+
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:107
+msgid "Requested IDs that match no facet, or a facet that indexes nothing (search, selection, sort…)."
+msgstr ""
+
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:132
+msgid "Pass the IDs of the facets to index."
+msgstr ""
+
+#: includes/Abilities/GridBuilder/ListFacetsAbility.php:37
+msgid "List WP Grid Builder facets"
+msgstr ""
+
+#: includes/Abilities/GridBuilder/ListFacetsAbility.php:44
+msgid "Lists the WP Grid Builder facets with their ID, slug, type, source, settings and number of index rows."
+msgstr ""
+
+#: includes/Abilities/GridBuilder/ListFacetsAbility.php:71
+msgid "Facet IDs to return. Omit to list every facet."
 msgstr ""
 
 #: includes/Abilities/Media/DeleteMediaAbility.php:35

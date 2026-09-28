@@ -185,4 +185,14 @@ class Capabilities {
     public static function canEditTemplates(): bool {
         return self::filter( current_user_can( 'edit_theme_options' ), 'edit_theme_options' );
     }
+
+    /**
+     * Whether the current user may manage WP Grid Builder.
+     *
+     * The plugin gates its own screens and REST routes, facets, index and cache
+     * alike, behind `manage_options`.
+     */
+    public static function canManageGridBuilder(): bool {
+        return self::filter( current_user_can( 'manage_options' ), 'manage_options' );
+    }
 }

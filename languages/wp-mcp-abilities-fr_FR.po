@@ -1266,3 +1266,61 @@ msgstr "L'ability « %1$s » n'a pas été ajoutée : les abilities ajoutées su
 #, php-format
 msgid "The wpmcpa_execute_result filter must return an array or a WP_Error; the original result of \"%s\" was kept."
 msgstr "Le filtre wpmcpa_execute_result doit renvoyer un tableau ou un WP_Error ; le résultat d'origine de « %s » a été conservé."
+
+#: includes/Abilities/GridBuilder/ClearCacheAbility.php:38
+msgid "Clear WP Grid Builder cache"
+msgstr "Vider le cache de WP Grid Builder"
+
+#: includes/Abilities/GridBuilder/ClearCacheAbility.php:45
+msgid "Clears the WP Grid Builder cache, as the button of its settings screen does. Use it when a facet shows stale or empty choices after an import or an indexing."
+msgstr "Vide le cache de WP Grid Builder, comme le bouton de son écran de réglages. À utiliser quand une facette affiche des choix périmés ou vides après un import ou une indexation."
+
+#: includes/Abilities/GridBuilder/ClearCacheAbility.php:52
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:56
+#: includes/Abilities/GridBuilder/ListFacetsAbility.php:51
+msgid "WP Grid Builder"
+msgstr "WP Grid Builder"
+
+#: includes/Abilities/GridBuilder/GridBuilderAccess.php:105
+msgid "What the facet indexes, e.g. \"taxonomy/category\" or \"post_meta/start_date\". Empty for facets that index nothing (search, sort, pagination…)."
+msgstr "Ce que la facette indexe, par exemple \"taxonomy/category\" ou \"post_meta/start_date\". Vide pour les facettes qui n'indexent rien (recherche, tri, pagination…)."
+
+#: includes/Abilities/GridBuilder/GridBuilderAccess.php:109
+msgid "Rows stored in the index for this facet."
+msgstr "Lignes enregistrées dans l'index pour cette facette."
+
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:42
+msgid "Index WP Grid Builder facets"
+msgstr "Indexer des facettes WP Grid Builder"
+
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:49
+msgid "Queues the given WP Grid Builder facets for indexing, as the \"Index\" button of the plugin does. Indexing runs in the background: call list-wpgb-facets to follow the index row counts, then clear-wpgb-cache once they are back so that facets stop serving cached choices."
+msgstr "Place les facettes WP Grid Builder indiquées dans la file d'indexation, comme le bouton « Index » de l'extension. L'indexation tourne en tâche de fond : appeler list-wpgb-facets pour suivre le nombre de lignes de l'index, puis clear-wpgb-cache une fois l'index reconstruit, pour que les facettes cessent de servir des choix en cache."
+
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:85
+msgid "IDs of the facets to index."
+msgstr "ID des facettes à indexer."
+
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:102
+msgid "IDs of the facets handed to the indexing queue."
+msgstr "ID des facettes placées dans la file d'indexation."
+
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:107
+msgid "Requested IDs that match no facet, or a facet that indexes nothing (search, selection, sort…)."
+msgstr "ID demandés qui ne correspondent à aucune facette, ou à une facette qui n'indexe rien (recherche, sélection, tri…)."
+
+#: includes/Abilities/GridBuilder/IndexFacetsAbility.php:132
+msgid "Pass the IDs of the facets to index."
+msgstr "Indiquez les ID des facettes à indexer."
+
+#: includes/Abilities/GridBuilder/ListFacetsAbility.php:37
+msgid "List WP Grid Builder facets"
+msgstr "Lister les facettes WP Grid Builder"
+
+#: includes/Abilities/GridBuilder/ListFacetsAbility.php:44
+msgid "Lists the WP Grid Builder facets with their ID, slug, type, source, settings and number of index rows."
+msgstr "Liste les facettes WP Grid Builder avec leur ID, leur slug, leur type, leur source, leurs réglages et leur nombre de lignes d'index."
+
+#: includes/Abilities/GridBuilder/ListFacetsAbility.php:71
+msgid "Facet IDs to return. Omit to list every facet."
+msgstr "ID des facettes à renvoyer. Omettre pour lister toutes les facettes."
