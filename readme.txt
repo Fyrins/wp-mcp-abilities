@@ -23,6 +23,7 @@ Ability families, with a few names:
 * **Templates**: `list-templates`, `get-template`, `create-template`, `update-template`, `delete-template`, for block templates and template parts.
 * **WooCommerce**, when active: `create-product`, `update-product`, product variations and global attributes.
 * **SEOPress**, when active: `get-post-seopress`, `update-post-seopress`, `get-term-seopress`, `update-term-seopress`, and `update-post-schemas-seopress` with SEOPress Pro.
+* **WP Grid Builder**, when active: `list-wpgb-facets`, `index-wpgb-facets` (queues facets for indexing, off by default) and `clear-wpgb-cache`, for users who can manage options.
 
 Every name carries the `wp-mcp-abilities/` prefix.
 
@@ -38,6 +39,7 @@ Each ability can be switched on or off from Settings → MCP Abilities. Abilitie
 * Every call runs as a logged-in WordPress user and is checked against that user's capabilities, on the object it targets: `edit_post` or `delete_post` on that very post, `edit_term` on that term. Publishing, changing the author, pinning a post and assigning terms need the same capabilities as in the admin.
 * Protected meta keys (starting with `_`) stay out of reach unless a developer allow-lists them.
 * Templates can only be changed by users who can edit the theme (`edit_theme_options`).
+* WP Grid Builder facets, index and cache are reserved to users who can manage options (`manage_options`), as in its own screens.
 * Markup goes through the usual WordPress filtering for users without the `unfiltered_html` capability, and the response says when something was stripped.
 * Destructive abilities are disabled by default, and any ability can be disabled individually. The settings screen requires `manage_options`.
 

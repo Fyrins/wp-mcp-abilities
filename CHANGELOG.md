@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added
+
+- WP Grid Builder abilities, registered only when the plugin is active and reserved to `manage_options`: `list-wpgb-facets` lists facets with their settings and index row counts, `index-wpgb-facets` hands facets to the plugin's indexing queue (disabled by default), `clear-wpgb-cache` clears its cache. Ported from bsaweb-mcp-abilities 2.6.0.
+
 ## [1.0.0] - 2026-09-25
 
 First release as a standalone plugin. The abilities, their schemas, defaults and permission checks are those of the release it was forked from (see the history below); what changes is how the plugin is built, named and distributed.

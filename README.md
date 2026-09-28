@@ -22,6 +22,7 @@ An agent connected over MCP can list, read, create, update and delete posts of e
   - [SEOPress](#seopress)
   - [Templates](#templates)
   - [WooCommerce](#woocommerce)
+  - [WP Grid Builder](#wp-grid-builder)
 - [Third-party abilities](#third-party-abilities)
 - [Security model](#security-model)
 - [Filters reference](#filters-reference)
@@ -509,6 +510,34 @@ Every ability except `delete-product-variation` accepts `_fields`, a comma-separ
 **Capabilities.** Those of the WooCommerce routes. Their verdict then goes through `wpmcpa_check_permission`, with `rest_route` as the capability and the route as the context. An invalid payload comes back as WooCommerce's validation error, not as a permission refusal.
 
 **Attributes created in the same request.** WooCommerce registers its `pa_*` taxonomies on `init`, from the database. A global attribute created by `create-product-attribute` is registered on the spot, so values assigned to it later in the same request are not dropped.
+
+### WP Grid Builder
+
+Registered only when WP Grid Builder is active (`WPGB_VERSION` defined). The plugin keeps facets and their index in tables of its own, out of reach of the content and meta abilities, and has no public function listing them; these abilities read them through its internal `Database` query builder and use its `Helpers` and `Indexer` classes. Recheck them on each major WP Grid Builder release.
+
+#### `wp-mcp-abilities/list-wpgb-facets`
+
+- **Input:** `ids` (integer[], optional): facet IDs to return. Omit to list every facet.
+- **Output:** `facets` (each with `id`, `slug`, `name`, `type`, `source`, `index_rows`, `modified_date`, `settings`) and `total`.
+- **Capability:** `manage_options`. **Default:** enabled.
+
+The ID is what the `wp-grid-builder/facet` block references, and an import can renumber it. `index_rows` tells an empty index from a facet that simply has nothing to offer on a page.
+
+#### `wp-mcp-abilities/index-wpgb-facets`
+
+- **Input:** `ids` (integer[], required, at least one).
+- **Output:** `queued` (IDs handed to the indexing queue) and `skipped` (IDs matching no facet, or a facet that indexes nothing: search, selection, sort…).
+- **Capability:** `manage_options`. **Default:** disabled.
+
+Facets go to the plugin's own indexing queue, as its "Index" button does, and the call returns at once: indexing runs in the background, in batches. Follow the row counts with `list-wpgb-facets`, then clear the cache. It is not run within the request because the indexer only guards time, memory and cancellation from its queue, and empties a facet's index before rebuilding it. Disabled by default, since a rebuild empties the index first and loads the site while it runs.
+
+#### `wp-mcp-abilities/clear-wpgb-cache`
+
+- **Input:** none (`{}`).
+- **Output:** `cleared`.
+- **Capability:** `manage_options`. **Default:** enabled.
+
+Does what the "Clear cache" button of the WP Grid Builder settings does. A facet created or indexed after its choices were cached keeps rendering them, often empty, until the cache is cleared.
 
 ## Third-party abilities
 
