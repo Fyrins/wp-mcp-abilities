@@ -35,6 +35,9 @@ final class Plugin {
      */
     public const ABILITIES = [
         Abilities\Content\ReplaceInPostContentAbility::class,
+        Abilities\GridBuilder\ClearCacheAbility::class,
+        Abilities\GridBuilder\IndexFacetsAbility::class,
+        Abilities\GridBuilder\ListFacetsAbility::class,
         Abilities\Media\DeleteMediaAbility::class,
         Abilities\Media\ListMediaAbility::class,
         Abilities\Media\SetFeaturedImageAbility::class,
