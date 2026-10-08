@@ -110,7 +110,7 @@ class ListMediaAbility extends AbstractAbility {
      * @param mixed $input Raw input coming from the MCP adapter.
      */
     public function checkPermission( mixed $input = null ): bool {
-        return Capabilities::canRead();
+        return Capabilities::canUploadFiles();
     }
 
     /**
@@ -118,6 +118,10 @@ class ListMediaAbility extends AbstractAbility {
      * @param mixed $input Raw input coming from the MCP adapter.
      */
     public function execute( mixed $input = null ): array|\WP_Error {
+        if ( ! Capabilities::canUploadFiles() ) {
+            return $this->forbidden();
+        }
+
         $input   = Input::normalize( $input );
         $perPage = min( max( Input::int( $input, 'per_page', 50 ), 1 ), self::MAX_PER_PAGE );
         $page    = max( Input::int( $input, 'page', 1 ), 1 );
@@ -150,8 +154,18 @@ class ListMediaAbility extends AbstractAbility {
 
         $query = new \WP_Query( $args );
 
+        // An attachment inherits the visibility of its parent: one uploaded to a
+        // private post or to somebody else's draft is left out, as the REST API
+        // leaves it out of its media collection.
+        $items = array_values(
+            array_filter(
+                $query->posts,
+                static fn ( \WP_Post $attachment ): bool => Capabilities::canReadPost( $attachment )
+            )
+        );
+
         $result = [
-            'items'    => array_map( [ $this, 'formatMedia' ], $query->posts ),
+            'items'    => array_map( [ $this, 'formatMedia' ], $items ),
             'total'    => (int) $query->found_posts,
             'page'     => $page,
             'per_page' => $perPage,
@@ -163,6 +177,6 @@ class ListMediaAbility extends AbstractAbility {
          * @param array<string, mixed> $result Formatted payload.
          * @param \WP_Post[]           $items  Raw attachment objects.
          */
-        return (array) apply_filters( 'wpmcpa_list_media_result', $result, $query->posts );
+        return (array) apply_filters( 'wpmcpa_list_media_result', $result, $items );
     }
 }

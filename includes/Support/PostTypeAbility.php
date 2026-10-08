@@ -35,6 +35,11 @@ class PostTypeAbility extends AbstractAbility {
     private const DEFAULT_PER_PAGE = 50;
 
     /**
+     * Query var restricting a `list` call to published posts and to this author's.
+     */
+    private const OWN_POSTS_QUERY_VAR = 'wpmcpa_own_posts';
+
+    /**
      * @param \WP_Post_Type $postType  Post type this ability operates on.
      * @param string        $operation One of 'list', 'get', 'create', 'update', 'delete'.
      * @throws \InvalidArgumentException When $operation is not one of the supported operations.
@@ -192,7 +197,8 @@ class PostTypeAbility extends AbstractAbility {
         $input = Input::normalize( $input );
 
         return match ( $this->operation ) {
-            'list', 'get' => Capabilities::canRead(),
+            'list'        => Capabilities::canRead(),
+            'get'         => $this->checkTargetedPermission( $input, [ Capabilities::class, 'canReadPost' ] ),
             'create'      => Capabilities::canCreatePost( $this->postType->name ),
             'update'      => $this->checkTargetedPermission( $input, [ Capabilities::class, 'canEditPost' ] ),
             'delete'      => $this->checkTargetedPermission( $input, [ Capabilities::class, 'canDeletePost' ] ),
@@ -242,7 +248,16 @@ class PostTypeAbility extends AbstractAbility {
          */
         $args = (array) apply_filters( 'wpmcpa_list_posts_query_args', $args, $input );
 
+        // Without `edit_others_posts`, only published posts and the caller's own
+        // are listed: the drafts of other authors stay out of reach, as they do
+        // in the editor.
+        if ( ! Capabilities::canReadOthersDrafts( $this->postType->name ) ) {
+            $args[ self::OWN_POSTS_QUERY_VAR ] = get_current_user_id();
+        }
+
+        add_filter( 'posts_where', [ self::class, 'restrictToReadablePosts' ], 10, 2 );
         $query = new \WP_Query( $args );
+        remove_filter( 'posts_where', [ self::class, 'restrictToReadablePosts' ], 10 );
 
         $result = [
             'items'    => array_map( [ $this, 'formatPostSummary' ], $query->posts ),
@@ -271,6 +286,10 @@ class PostTypeAbility extends AbstractAbility {
 
         if ( is_wp_error( $post ) ) {
             return $post;
+        }
+
+        if ( ! Capabilities::canReadPost( $post ) ) {
+            return $this->forbidden();
         }
 
         $terms = $this->taxonomies->postTerms( $post );
@@ -696,6 +715,29 @@ class PostTypeAbility extends AbstractAbility {
             'author_id'     => (int) $post->post_author,
             'category_ids'  => $this->taxonomies->categoryIds( $post ),
         ];
+    }
+
+    /**
+     * Keeps a listing to published posts and to the posts of one author.
+     *
+     * Only acts on the queries flagged with OWN_POSTS_QUERY_VAR by list().
+     *
+     * @param string    $where WHERE clause built by WP_Query.
+     * @param \WP_Query $query Query being run.
+     */
+    public static function restrictToReadablePosts( string $where, \WP_Query $query ): string {
+        $authorId = (int) $query->get( self::OWN_POSTS_QUERY_VAR );
+
+        if ( $authorId <= 0 ) {
+            return $where;
+        }
+
+        global $wpdb;
+
+        return $where . $wpdb->prepare(
+            " AND ( {$wpdb->posts}.post_status = 'publish' OR {$wpdb->posts}.post_author = %d )",
+            $authorId
+        );
     }
 
     /**

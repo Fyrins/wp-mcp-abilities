@@ -49,6 +49,41 @@ class Capabilities {
     }
 
     /**
+     * Whether the current user may read this very post.
+     *
+     * `read_post` resolves the post status: a private post needs
+     * `read_private_posts`, someone else's draft needs `edit_others_posts`, an
+     * attachment follows its parent. A password-protected post is only exposed
+     * to whoever may edit it, as the REST API does without the password.
+     *
+     * @param \WP_Post $post Target post.
+     */
+    public static function canReadPost( \WP_Post $post ): bool {
+        if ( '' !== $post->post_password ) {
+            return self::canEditPost( $post );
+        }
+
+        return self::filter( current_user_can( 'read_post', $post->ID ), 'read_post', $post );
+    }
+
+    /**
+     * Whether the current user may read the drafts of other authors.
+     *
+     * @param string $postType Post type slug.
+     */
+    public static function canReadOthersDrafts( string $postType ): bool {
+        $object = get_post_type_object( $postType );
+
+        if ( ! $object instanceof \WP_Post_Type ) {
+            return self::filter( false, 'edit_others_posts', $postType );
+        }
+
+        $capability = $object->cap->edit_others_posts;
+
+        return self::filter( current_user_can( $capability ), $capability, $postType );
+    }
+
+    /**
      * Whether the current user may edit this very post.
      *
      * @param \WP_Post $post Target post.
