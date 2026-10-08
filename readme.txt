@@ -4,7 +4,7 @@ Tags: mcp, ai, abilities, agents, api
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,6 +111,9 @@ No. Abilities only run when a client calls them, and every ability that deletes 
 
 == Changelog ==
 
+= 1.1.1 =
+* Fix: the "MCP Adapter is not running" notice no longer shows by mistake with MCP Adapter 0.7 when another plugin bundles an older copy of the adapter.
+
 = 1.1.0 =
 * New WP Grid Builder abilities, when that plugin is active: list the facets with their index row counts, queue facets for indexing (off by default) and clear its cache. Reserved to users who can manage options.
 * Fix: updating a meta value no longer strips percent-encoded characters and line breaks. A key with its own sanitize callback gets the value as sent, so a URL keeps its %20.
@@ -122,6 +125,9 @@ No. Abilities only run when a client calls them, and every ability that deletes 
 * Settings screen to switch each ability on or off, and to control abilities registered by other plugins.
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+Removes a false "MCP Adapter is not running" notice with MCP Adapter 0.7.
 
 = 1.1.0 =
 Adds WP Grid Builder abilities and fixes meta values losing their %20 and line breaks when written.
