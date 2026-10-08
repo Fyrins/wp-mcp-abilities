@@ -2,7 +2,7 @@
 
 Content management abilities for AI agents, registered with the WordPress Abilities API and reachable over MCP through the MCP Adapter.
 
-`version 1.0.0` · `license GPL-2.0-or-later` · `WordPress 6.9+` · `PHP 8.1+`
+`version 1.1.1` · `license GPL-2.0-or-later` · `WordPress 6.9+` · `PHP 8.1+`
 
 An agent connected over MCP can list, read, create, update and delete posts of every public post type, media, taxonomy terms, post and term meta, block templates and template parts, WooCommerce products, variations and attributes, and SEOPress fields. It does so as a WordPress user, within that user's capabilities, and each ability can be switched off from the settings screen.
 
@@ -38,7 +38,7 @@ An agent connected over MCP can list, read, create, update and delete posts of e
 | --- | --- | --- |
 | WordPress | 6.9 or later | The Abilities API ships with core from 6.9. |
 | PHP | 8.1 or later | |
-| [MCP Adapter](https://github.com/WordPress/mcp-adapter/releases) | optional | Needed to reach the abilities from an MCP client. Not hosted on WordPress.org. |
+| [MCP Adapter](https://github.com/WordPress/mcp-adapter/releases) | optional, 0.5 or later | Needed to reach the abilities from an MCP client. Not hosted on WordPress.org. |
 | WooCommerce | optional | The WooCommerce abilities are only registered when it runs. |
 | SEOPress | optional | The SEOPress abilities are only registered when it runs. `update-post-schemas-seopress` also needs SEOPress Pro. |
 
@@ -981,7 +981,7 @@ class CountWordsAbility extends AbstractAbility {
 
 The adapter is still in `0.x`, and the plugin relies on signals that are not documented as public API. After every adapter upgrade, check that they still hold:
 
-- **`WP_MCP_VERSION` and `mcp_adapter_init`.** `Requirements::hasMcpAdapter()` treats the adapter as running when the constant is defined or the action has fired. If a release renames them, the plugin warns that the adapter is missing while it runs.
+- **`wp_mcp_init`, `WP_MCP_VERSION` and `mcp_adapter_init`.** `Requirements::hasMcpAdapter()` treats the adapter as running when either action has fired or the constant is defined. If a release renames them, the plugin warns that the adapter is missing while it runs. Version 0.7 already moved the constant into `Plugin::constants()`: when another plugin bundles an older copy of the adapter and registers its autoloader first, that copy's `Plugin` class boots and the constant never exists in admin, while `wp_mcp_init` still fires.
 - **`meta.mcp.public`.** Every ability sets it in `AbstractAbility::getProperties()`. The adapter reads it to decide what it exposes and treats a missing value as `false`: an ability without it is registered but invisible to discovery, and recent versions also refuse to run it.
 - **The default server.** Its route under the `mcp` REST namespace (`/mcp/mcp-adapter-default-server`), which the third-party switches rely on; the `mcp_adapter_default_server_config` filter and its `tools` key, which third-party exposure relies on; the `mcp_adapter_create_default_server` filter, read by the settings screen.
 - **Resources and prompts.** Whether the default server still freezes them when it is built (see [Third-party abilities](#third-party-abilities)).

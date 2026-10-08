@@ -3,7 +3,11 @@
 All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.1] - 2026-10-08
+
+### Fixed
+
+- The "MCP Adapter is not running" notice no longer shows by mistake with MCP Adapter 0.7. That version defines `WP_MCP_VERSION` in `Plugin::constants()` instead of the plugin file. When another plugin bundles an older copy of the adapter and loads its autoloader first, that copy boots and the constant never exists in admin, although MCP answers normally. The check now also accepts the `wp_mcp_init` action, fired by the adapter's main class in every version.
 
 ## [1.1.0] - 2026-09-28
 

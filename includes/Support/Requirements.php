@@ -49,20 +49,32 @@ class Requirements {
      * dependency, as WP Rocket does through wp-media/mcp-oauth, autoloads its
      * classes whether or not the plugin itself is active.
      *
-     * Two ways of running are accepted. The constant covers the plugin being
-     * activated the usual way. The action covers the adapter being booted by
+     * Three signals are accepted. `wp_mcp_init` is fired by the plugin's main
+     * class as soon as it boots, in every version. The constant covers the
+     * same case for versions up to 0.6, which defined it from the plugin file
+     * itself. The `mcp_adapter_init` action covers the adapter being booted by
      * somebody else calling `McpAdapter::instance()`, which mcp-oauth does as
      * soon as the class is reachable: MCP would then be perfectly functional
      * with the plugin left inactive.
      *
-     * Checked late, on an admin hook, so both signals have had a chance to
-     * fire: the adapter loads after this plugin in alphabetical order, and the
-     * action is fired on `init`.
+     * The constant alone is no longer enough since 0.7: it moved into
+     * `Plugin::constants()`, and when another plugin bundling an older copy
+     * registers its autoloader first, the adapter boots that copy's `Plugin`
+     * class, which never defines it. The action still fires.
+     *
+     * Checked late, on an admin hook, because the adapter loads after this
+     * plugin in alphabetical order. By then `wp_mcp_init` has fired and the
+     * constant is defined, both being set while the adapter plugin loads.
+     * `mcp_adapter_init` is different: recent versions fire it on
+     * `rest_api_init` (on `init` under WP-CLI), which a normal admin render
+     * never reaches. It only helps on REST and WP-CLI requests.
      *
      * @return bool
      */
     public static function hasMcpAdapter(): bool {
-        return defined( 'WP_MCP_VERSION' ) || did_action( 'mcp_adapter_init' ) > 0;
+        return did_action( 'wp_mcp_init' ) > 0
+            || defined( 'WP_MCP_VERSION' )
+            || did_action( 'mcp_adapter_init' ) > 0;
     }
 
     /**
