@@ -97,7 +97,14 @@ class GetPostSeoAbility extends AbstractAbility {
      * @param mixed $input Raw input coming from the MCP adapter.
      */
     public function checkPermission( mixed $input = null ): bool {
-        return Capabilities::canRead();
+        $input = Input::normalize( $input );
+        $post  = $this->resolvePost( Input::int( $input, 'post_id' ) );
+
+        if ( is_wp_error( $post ) ) {
+            return false;
+        }
+
+        return Capabilities::canEditPost( $post );
     }
 
     /**
@@ -110,6 +117,10 @@ class GetPostSeoAbility extends AbstractAbility {
 
         if ( is_wp_error( $post ) ) {
             return $post;
+        }
+
+        if ( ! Capabilities::canEditPost( $post ) ) {
+            return $this->forbidden();
         }
 
         $result = $this->readSeoData(
